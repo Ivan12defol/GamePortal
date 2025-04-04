@@ -1,0 +1,323 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #121018;
+  color: white;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: hsla(250, 20%, 8%, 0.6);
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.icon {
+  background-color: #8247e5;
+  color: white;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+.menu a:hover {
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: hsla(250, 20%, 8%, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+  gap: 10px;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.search {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: white;
+  flex-grow: 1;
+}
+
+.signin {
+  background-color: #8247e5;
+  color: white;
+  border: none;
+  padding: 10px 17px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signin:hover {
+  background-color: #6a37c3;
+}
+
+.border-b {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+.py-6 {
+  padding-top: 105px;
+}
+
+.font-medium {
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+}
+
+.game-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  height: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.game-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.game-banner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: url("https://via.placeholder.com/1200x400?text=Cyberpunk+2077")
+    center/cover no-repeat;
+  border-radius: 10px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.11),
+    rgba(0, 0, 0, 0.9)
+  );
+}
+
+.game-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+}
+
+.game-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.game-description {
+  color: rgb(0 255 0);
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.tag {
+  background: hsl(250, 30%, 25%);
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.install,
+.learn {
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.install {
+  background: #8247e5;
+  color: white;
+}
+
+.install:hover {
+  background: #6b38c2;
+}
+
+.learn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.learn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.prev,
+.next {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.prev:hover,
+.next:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+/* Секция Discover */
+.discover {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.discover h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  padding: 8px 15px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.filters button:hover {
+  background: #555;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .game-slider {
+    height: 300px;
+  }
+
+  .game-title {
+    font-size: 22px;
+  }
+
+  .game-description {
+    font-size: 14px;
+  }
+}
+
+.indicators {
+  position: absolute;
+  bottom: 5px; /* Как на изображении, ближе к низу */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px; /* Меньший зазор, как на изображении */
+}
+
+.indicator {
+  width: 20px; /* Длиннее, как на изображении */
+  height: 5px; /* Тоньше */
+  background: rgba(255, 255, 255, 0.3); /* Полупрозрачный серый */
+  border-radius: 2px; /* Слегка скруглённые углы */
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.indicator.active {
+  background: rgba(255, 255, 255, 0.8); /* Белый для активного индикатора */
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.5); /* Подсветка при наведении */
+}

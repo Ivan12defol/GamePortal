@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GamePortal</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./js.js" defer></script>
+  </head>
+  <body>
+    <header class="navbar border-b w-full font-medium">
+      <div class="logo">
+        <div class="icon">GP</div>
+        <span>GamePortal</span>
+      </div>
+      <nav class="menu py-2">
+        <a href="#" class="font-medium">Магазин</a>
+        <a href="#" class="font-medium">Бібліотека</a>
+        <a href="#" class="font-medium">Друзі</a>
+        <a href="#" class="font-medium">Спільнота</a>
+        <a href="#" class="font-medium">Підтримка</a>
+      </nav>
+      <div class="actions">
+        <div class="search-container">
+          <img
+            src="./img/free-icon-font-search.png"
+            alt="Search Icon"
+            class="search-icon"
+          />
+          <input
+            type="text"
+            placeholder="Search games..."
+            class="search font-medium"
+          />
+        </div>
+        <button class="signin font-medium">Sign In</button>
+      </div>
+    </header>
+    <main class="container py-6">
+      <div class="container">
+        <div class="game-slider">
+          <div class="game-content">
+            <div class="game-banner">
+              <div class="overlay"></div>
+            </div>
+            <div class="game-info">
+              <h2 class="game-title">Cyberpunk 2077</h2>
+              <p class="game-description font-medium">
+                Open-world RPG in Night City.
+              </p>
+              <div class="tags">
+                <span class="tag">RPG</span>
+                <span class="tag">Action</span>
+                <span class="tag">Open World</span>
+              </div>
+              <div class="buttons">
+                <button class="install">Завантажити</button>
+                <button class="learn">Дізнайтеся більше</button>
+              </div>
+            </div>
+          </div>
+          <button class="prev" aria-label="Previous game">❮</button>
+          <button class="next" aria-label="Next game">❯</button>
+          <div class="indicators"></div>
+        </div>
+
+        <section class="discover">
+          <h2>Discover Games</h2>
+          <div class="filters">
+            <button>All Games</button>
+            <button>Action</button>
+            <button>Adventure</button>
+            <button>RPG</button>
+            <button>Strategy</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
