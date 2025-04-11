@@ -15,35 +15,29 @@ document.addEventListener("DOMContentLoaded", function () {
   const emailInput = document.getElementById("email");
   const phoneInput = document.getElementById("phone");
   const passwordInput = document.getElementById("password");
-
   const usernameError = document.getElementById("username-error");
   const emailError = document.getElementById("email-error");
   const phoneError = document.getElementById("phone-error");
   const passwordError = document.getElementById("password-error");
 
-  // Лічильник символів для description
   const descriptionCounter = document.getElementById("description-counter");
   const maxDescriptionLength = descriptionInput.getAttribute("maxlength");
 
-  // Ініціалізація значень полів
   usernameInput.value = currentUser.username || "";
   descriptionInput.value = currentUser.description || "";
   emailInput.value = currentUser.email || "";
   phoneInput.value = currentUser.phone || "";
   passwordInput.value = "";
 
-  // Ініціалізація аватара
   const avatarPreview = document.getElementById("avatar-preview");
   avatarInput.value =
     currentUser.avatar || "https://via.placeholder.com/100?text=Avatar";
   avatarPreview.src = avatarInput.value;
 
-  // Ініціалізація счётчика символов
   descriptionCounter.textContent = `${
     maxDescriptionLength - descriptionInput.value.length
   } символів залишилось`;
 
-  // Оновлення лічильника під час введення тексту
   descriptionInput.addEventListener("input", () => {
     const remaining = maxDescriptionLength - descriptionInput.value.length;
     descriptionCounter.textContent = `${remaining} символів залишилось`;
@@ -54,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Логіка перемикання вкладок
   const tabLinks = document.querySelectorAll(".tab-link");
   const tabContents = document.querySelectorAll(".tab-content");
 
@@ -71,19 +64,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Вибір аватара
   const avatarOptions = document.querySelectorAll(".avatar-option");
   const avatarUpload = document.getElementById("avatar-upload");
   const avatarDropdownBtn = document.querySelector(".avatar-dropdown-btn");
   const avatarDropdown = document.querySelector(".avatar-dropdown");
 
-  // Показ/приховування списку, що випадає
   avatarDropdownBtn.addEventListener("click", () => {
     avatarDropdown.style.display =
       avatarDropdown.style.display === "none" ? "block" : "none";
   });
 
-  // Закриття списку, що випадає, при кліку поза ним
   document.addEventListener("click", (e) => {
     if (
       !avatarDropdown.contains(e.target) &&
@@ -93,7 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Обробка вибору аватара
   avatarOptions.forEach((option) => {
     if (option.dataset.url === currentUser.avatar) {
       option.classList.add("selected");
@@ -107,7 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Обробка завантаження файлу та редактор фото
   const cropperModal = document.getElementById("cropper-modal");
   const cropperImage = document.getElementById("cropper-image");
   const cropperCanvas = document.getElementById("cropper-canvas");
@@ -138,7 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Оновлення трансформації зображення
   function updateImageTransform() {
     cropperImage.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
   }
@@ -168,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const canvas = cropperCanvas;
     const ctx = canvas.getContext("2d");
 
-    // Встановлюємо розмір canvas рівним розміру області обрізки (100x100)
     canvas.width = 100;
     canvas.height = 100;
 
@@ -193,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   cropperCancel.addEventListener("click", () => {
     cropperModal.style.display = "none";
-    avatarUpload.value = ""; // Очистка поля загрузки
+    avatarUpload.value = "";
   });
 
   // Функція для оновлення імені та аватара на всіх сторінках
@@ -209,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Валідація форми "Основне"
   function checkProfileForm() {
     let isValid = true;
     usernameError.classList.remove("visible");
@@ -223,13 +208,11 @@ document.addEventListener("DOMContentLoaded", function () {
     return isValid;
   }
 
-  // Валідація форми "Аватар"
   function checkAvatarForm() {
     let isValid = true;
     return isValid;
   }
 
-  // Валідація форми "Приватність"
   function checkInfoForm() {
     let isValid = true;
     emailError.classList.remove("visible");
@@ -257,7 +240,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return isValid;
   }
 
-  // Обробка форми "Основне"
   profileForm.addEventListener("submit", function (event) {
     event.preventDefault();
     if (checkProfileForm()) {
@@ -293,7 +275,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Обробка форми "Аватар"
   avatarForm.addEventListener("submit", function (event) {
     event.preventDefault();
     if (checkAvatarForm()) {
@@ -317,7 +298,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Обробка форми "Приватність"
   infoForm.addEventListener("submit", function (event) {
     event.preventDefault();
     if (checkInfoForm()) {
