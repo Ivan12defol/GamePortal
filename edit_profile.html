@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Редагувати профіль</title>
+    <link rel="stylesheet" href="./edit_profile.css" />
+  </head>
+  <body>
+    <header class="navbar border-b w-full font-medium">
+      <div class="logo">
+        <a href="./index.html"><div class="icon">GP</div></a>
+        <span>GamePortal</span>
+      </div>
+      <div class="actions">
+        <a href="./profile.html" class="profile-btn">Перейти до профілю</a>
+      </div>
+    </header>
+    <main class="container py-6">
+      <div class="container">
+        <div class="sidebar">
+          <h3>Налаштування</h3>
+          <ul>
+            <li>
+              <a href="#" class="tab-link active" data-tab="general">Основне</a>
+            </li>
+            <li><a href="#" class="tab-link" data-tab="avatar">Аватар</a></li>
+            <li>
+              <a href="#" class="tab-link" data-tab="privacy">Приватність</a>
+            </li>
+          </ul>
+        </div>
+        <div class="content">
+          <h2>Редагувати профіль</h2>
+
+          <!-- Вкладка "Основне" -->
+          <div class="tab-content" id="general" style="display: block">
+            <form id="edit-profile-form">
+              <h3>Основне</h3>
+              <div class="form-group">
+                <label for="username">Нік (Ім'я профілю)</label>
+                <input type="text" id="username" name="username" />
+                <div class="error" id="username-error">Введіть нік</div>
+              </div>
+              <div class="form-group">
+                <label for="description">Опис профілю</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  maxlength="100"
+                ></textarea>
+                <div class="char-counter" id="description-counter">
+                  100 символів залишилось
+                </div>
+              </div>
+              <div class="buttons">
+                <button type="submit" class="save-btn">Зберегти</button>
+                <button
+                  type="button"
+                  class="cancel-btn"
+                  onclick="window.location.href='./profile.html'"
+                >
+                  Скасувати
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Вкладка "Аватар" -->
+          <div class="tab-content" id="avatar" style="display: none">
+            <form id="edit-avatar-form">
+              <h3>Аватар</h3>
+              <div class="form-group">
+                <div class="avatar-preview">
+                  <img
+                    id="avatar-preview"
+                    src="./img/avatars.png"
+                    alt="Попередній перегляд аватара"
+                  />
+                </div>
+
+                <input type="hidden" id="avatar" name="avatar" />
+
+                <label for="avatar-upload" class="upload-btn"
+                  >Завантажити аватар</label
+                >
+                <input
+                  type="file"
+                  id="avatar-upload"
+                  accept="image/*"
+                  style="display: none"
+                />
+
+                <button type="button" class="avatar-dropdown-btn">
+                  Вибрати аватар
+                </button>
+
+                <div class="avatar-dropdown" style="display: none">
+                  <div class="avatar-options">
+                    <img
+                      src="./img/avatars_2.png"
+                      alt="Avatar 1"
+                      class="avatar-option"
+                      data-url="./img/avatars_2.png"
+                    />
+                    <img
+                      src="./img/avatars_3.png"
+                      alt="Avatar 2"
+                      class="avatar-option"
+                      data-url="./img/avatars_3.png"
+                    />
+                    <img
+                      src="./img/avatars_4.png"
+                      alt="Avatar 3"
+                      class="avatar-option"
+                      data-url="./img/avatars_4.png"
+                    />
+                    <img
+                      src="./img/avatars_5.png"
+                      alt="Avatar 5"
+                      class="avatar-option"
+                      data-url="./img/avatars_5.png"
+                    />
+                    <img
+                      src="./img/avatars_6.png"
+                      alt="Avatar 6"
+                      class="avatar-option"
+                      data-url="./img/avatars_6.png"
+                    />
+                    <img
+                      src="./img/avatars_7.png"
+                      alt="Avatar 7"
+                      class="avatar-option"
+                      data-url="./img/avatars_7.png"
+                    />
+                    <img
+                      src="./img/avatars_8.png"
+                      alt="Avatar 8"
+                      class="avatar-option"
+                      data-url="./img/avatars_8.png"
+                    />
+                    <img
+                      src="./img/avatars_9.png"
+                      alt="Avatar 9"
+                      class="avatar-option"
+                      data-url="./img/avatars_9.png"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="buttons">
+                <button type="submit" class="save-btn">Зберегти</button>
+                <button
+                  type="button"
+                  class="cancel-btn"
+                  onclick="window.location.href='./profile.html'"
+                >
+                  Скасувати
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Вкладка "Приватність" -->
+          <div class="tab-content" id="privacy" style="display: none">
+            <form id="edit-info-form">
+              <h3>Приватність</h3>
+              <div class="form-group">
+                <label for="email">Пошта</label>
+                <input type="email" id="email" name="email" required />
+                <div class="error" id="email-error">
+                  Введіть правильний email
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="phone">Номер телефону</label>
+                <input type="tel" id="phone" name="phone" />
+                <div class="error" id="phone-error">
+                  Введіть коректний номер
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password"
+                  >Новий пароль (залиште порожнім, якщо не змінюєте)</label
+                >
+                <input type="password" id="password" name="password" />
+                <div class="error" id="password-error">
+                  Пароль має бути не менше 6 символів
+                </div>
+              </div>
+              <div class="buttons">
+                <button type="submit" class="save-btn">Зберегти</button>
+                <button
+                  type="button"
+                  class="cancel-btn"
+                  onclick="window.location.href='./profile.html'"
+                >
+                  Скасувати
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Модальне вікно для редагування фото -->
+    <div id="cropper-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h3>Редагувати аватар</h3>
+        <div class="cropper-container">
+          <div class="cropper-wrapper">
+            <img id="cropper-image" src="" alt="Редагується зображення" />
+            <div class="cropper-box"></div>
+          </div>
+          <canvas id="cropper-canvas" style="display: none"></canvas>
+        </div>
+        <div class="cropper-controls">
+          <button type="button" id="cropper-zoom-in">Збільшити</button>
+          <button type="button" id="cropper-zoom-out">Зменшити</button>
+          <button type="button" id="cropper-rotate-left">
+            Повернути вліво
+          </button>
+          <button type="button" id="cropper-rotate-right">
+            Повернути вправо
+          </button>
+          <button type="button" id="cropper-crop">Обрізати та зберегти</button>
+          <button type="button" id="cropper-cancel">Скасувати</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./edit.js"></script>
+  </body>
+</html>

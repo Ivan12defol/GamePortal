@@ -14,7 +14,7 @@
   <body>
     <header class="navbar border-b w-full font-medium">
       <div class="logo">
-        <div class="icon">GP</div>
+        <a href="./index.html"><div class="icon">GP</div></a>
         <span>GamePortal</span>
       </div>
       <nav class="menu py-2">
@@ -37,7 +37,7 @@
             class="search font-medium"
           />
         </div>
-        <button class="signin font-medium">Sign In</button>
+        <div id="auth-section"></div>
       </div>
     </header>
     <main class="container py-6">
@@ -76,6 +76,64 @@
             <button>Adventure</button>
             <button>RPG</button>
             <button>Strategy</button>
+          </div>
+        </section>
+
+        <!-- Секція "New Releases" -->
+        <section class="game-section">
+          <div class="section-header">
+            <h2>New Releases</h2>
+            <a href="#" class="view-all">View All</a>
+          </div>
+          <div class="game-list">
+            <!-- Картка 1 -->
+            <div class="game-card">
+              <div class="game-card-image">
+                <img src="./img/Cyberpunk.png" alt="Cyberpunk 2077" />
+                <span class="discount">-25%</span>
+              </div>
+              <div class="game-card-content">
+                <h3>Cyberpunk 2077</h3>
+                <div class="genres">RPG, Action</div>
+                <div class="developer">CD Projekt Red</div>
+                <div class="price">
+                  <span class="original-price">₴1099</span>
+                  <span class="discounted-price">₴824</span>
+                </div>
+                <div class="buttons">
+                  <button class="install">Завантажити</button>
+                  <button class="wishlist">♡</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Секція "Popular Games" -->
+        <section class="game-section">
+          <div class="section-header">
+            <h2>Popular Games</h2>
+            <a href="#" class="view-all">View All</a>
+          </div>
+          <div class="game-list">
+            <!-- Картка 1 -->
+            <div class="game-card">
+              <div class="game-card-image">
+                <img src="./img/cs.png" alt="Counter-Strike 2" />
+              </div>
+              <div class="game-card-content">
+                <h3>Counter-Strike 2</h3>
+                <div class="genres">Shooter, Tactics</div>
+                <div class="developer">Valve</div>
+                <div class="price">
+                  <span>Безкоштовне</span>
+                </div>
+                <div class="buttons">
+                  <button class="install">Завантажити</button>
+                  <button class="wishlist">♡</button>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>

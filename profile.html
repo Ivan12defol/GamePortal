@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Профіль</title>
+    <link rel="stylesheet" href="./profil.css" />
+  </head>
+  <body>
+    <header class="navbar border-b w-full font-medium">
+      <div class="logo">
+        <a href="./index.html"><div class="icon">GP</div></a>
+        <span>GamePortal</span>
+      </div>
+      <div class="actions">
+        <div id="auth-section"></div>
+      </div>
+    </header>
+    <main class="container py-6">
+      <div class="container">
+        <div class="profile-header">
+          <img id="avatar" alt="Avatar" class="avatar" />
+          <div class="profile-info">
+            <span class="username" id="username"></span>
+            <div class="description" id="description"></div>
+          </div>
+          <a href="./edit_profile.html" class="edit-profile font-medium"
+            >Редагувати профіль</a
+          >
+          <button class="logout-btn" onclick="logout()">Вийти</button>
+        </div>
+        <div class="activity-section">
+          <h3>Недавня активність</h3>
+          <div class="activity">
+            <img
+              src="https://via.placeholder.com/150x70?text=Counter+Strike+2"
+              alt="Game"
+            />
+            <div class="activity-info">
+              <h4>Counter-Strike 2</h4>
+              <p>1139 ч. весело, останні 2 тижні</p>
+            </div>
+          </div>
+          <div class="activity">
+            <img
+              src="https://via.placeholder.com/150x70?text=Achievement"
+              alt="Achievement"
+            />
+            <div class="activity-info">
+              <h4>Досягнення 1 з 1</h4>
+              <p>Скриншот 1 Обзор 1</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        if (!currentUser) {
+          alert("Будь ласка, увійдіть!");
+          window.location.href = "./login.html";
+          return;
+        }
+
+        const usernameElement = document.getElementById("username");
+        const descriptionElement = document.getElementById("description");
+        const avatarElement = document.getElementById("avatar");
+
+        if (!usernameElement || !descriptionElement || !avatarElement) {
+          return;
+        }
+
+        usernameElement.textContent = currentUser.username || "Нік не вказано";
+        descriptionElement.textContent =
+          currentUser.description || "Опис профілю відсутній.";
+        avatarElement.src = currentUser.avatar || "./img/avatars.png";
+
+        const authSection = document.getElementById("auth-section");
+        if (currentUser) {
+          authSection.innerHTML = `
+                    <a href="./profile.html" style="display: flex; align-items: center; gap: 10px;">
+                        <img src="${
+                          currentUser.avatar || "./img/avatars.png"
+                        }" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
+                        <button class="signin font-medium">${
+                          currentUser.username
+                        }</button>
+                    </a>
+                `;
+        } else {
+          authSection.innerHTML = `
+                    <a href="./login.html">
+                        <button class="signin font-medium">Sign In</button>
+                    </a>
+                `;
+        }
+      });
+
+      function logout() {
+        localStorage.removeItem("currentUser");
+        window.location.href = "./login.html";
+      }
+    </script>
+  </body>
+</html>

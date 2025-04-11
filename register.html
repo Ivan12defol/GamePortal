@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Реєстрація</title>
+    <style>
+      body {
+        background: #121018;
+        color: white;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: hsla(250, 20%, 8%, 0.6);
+        padding: 15px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .icon {
+        background-color: #8247e5;
+        color: white;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+      a {
+        text-decoration: none;
+      }
+      .border-b {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .register-box {
+        background: #1a1a1a;
+        padding: 20px 50px;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+      }
+      .register-box h2 {
+        color: #8247e5;
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #555;
+        border-radius: 5px;
+        background: #2a2a2a;
+        color: white;
+      }
+      .error {
+        color: #ff4444;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+      }
+      .error.visible {
+        display: block;
+      }
+      .register-btn {
+        width: 100%;
+        padding: 10px;
+        background: #8247e5;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .register-btn:hover {
+        background: #6b38c2;
+      }
+      .login-link {
+        margin-top: 15px;
+      }
+      .login-link a {
+        color: #8247e5;
+        text-decoration: none;
+      }
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar border-b w-full font-medium">
+      <div class="logo">
+        <a href="./index.html"><div class="icon">GP</div></a>
+        <span>GamePortal</span>
+      </div>
+    </header>
+    <div class="register-box">
+      <h2>Реєстрація</h2>
+      <form id="register-form">
+        <div class="form-group">
+          <input type="text" id="username" placeholder="Ваше ім'я" required />
+          <div class="error" id="username-error">Введіть ім'я</div>
+        </div>
+        <div class="form-group">
+          <input type="email" id="email" placeholder="Ваш email" required />
+          <div class="error" id="email-error">Введіть правильний email</div>
+        </div>
+        <div class="form-group">
+          <input type="password" id="password" placeholder="Пароль" required />
+          <div class="error" id="password-error">
+            Пароль має бути не менше 6 символів
+          </div>
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            id="confirm-password"
+            placeholder="Підтвердіть пароль"
+            required
+          />
+          <div class="error" id="confirm-password-error">
+            Паролі не співпадають
+          </div>
+        </div>
+        <button type="submit" class="register-btn">Зареєструватися</button>
+      </form>
+      <div class="login-link">
+        <p>Вже маєте акаунт? <a href="login.html">Увійти</a></p>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("register-form");
+      const usernameInput = document.getElementById("username");
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirm-password");
+      const usernameError = document.getElementById("username-error");
+      const emailError = document.getElementById("email-error");
+      const passwordError = document.getElementById("password-error");
+      const confirmPasswordError = document.getElementById(
+        "confirm-password-error"
+      );
+
+      function checkForm() {
+        let isValid = true;
+        usernameError.classList.remove("visible");
+        emailError.classList.remove("visible");
+        passwordError.classList.remove("visible");
+        confirmPasswordError.classList.remove("visible");
+
+        if (usernameInput.value.trim() === "") {
+          usernameError.classList.add("visible");
+          isValid = false;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(emailInput.value)) {
+          emailError.classList.add("visible");
+          isValid = false;
+        }
+
+        if (passwordInput.value.length < 6) {
+          passwordError.classList.add("visible");
+          isValid = false;
+        }
+
+        if (passwordInput.value !== confirmPasswordInput.value) {
+          confirmPasswordError.classList.add("visible");
+          isValid = false;
+        }
+
+        return isValid;
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (checkForm()) {
+          const users = JSON.parse(localStorage.getItem("users")) || [];
+          const userExists = users.some(
+            (user) =>
+              user.email === emailInput.value ||
+              user.username === usernameInput.value
+          );
+
+          if (userExists) {
+            alert("Користувач з таким ім'ям або email вже існує!");
+            return;
+          }
+
+          const newUser = {
+            username: usernameInput.value,
+            email: emailInput.value,
+            password: passwordInput.value,
+          };
+
+          users.push(newUser);
+          localStorage.setItem("users", JSON.stringify(users));
+          localStorage.setItem("currentUser", JSON.stringify(newUser));
+          alert("Реєстрація успішна!");
+          window.location.href = "profile.html";
+        }
+      });
+    </script>
+  </body>
+</html>

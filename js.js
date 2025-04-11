@@ -27,7 +27,13 @@ const games = [
     title: "R.E.P.O.",
     description: "225₴",
     tags: ["Жахи", "Мережевий кооператив", "Фізика"],
-    image: "./img/REPO..png",
+    image: "./img/REPO.png",
+  },
+  {
+    title: "inZOI",
+    description: "1 199₴",
+    tags: ["Ранній доступ", "Симулятор життя", "Симулятор"],
+    image: "./img/inZOI.png",
   },
 ];
 
@@ -90,4 +96,24 @@ function initializeSlider() {
 
 if (prevButton && nextButton && indicatorsContainer) {
   initializeSlider();
+}
+
+const authSection = document.getElementById("auth-section");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if (currentUser) {
+  authSection.innerHTML = `
+      <a href="./profile.html" style="display: flex; align-items: center; gap: 10px;">
+          <img src="${
+            currentUser.avatar || "./img/avatars.png"
+          }" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
+          <button class="signin font-medium">${currentUser.username}</button>
+      </a>
+  `;
+} else {
+  authSection.innerHTML = `
+      <a href="./login.html">
+          <button class="signin font-medium">Sign In</button>
+      </a>
+  `;
 }

@@ -55,6 +55,10 @@ body {
   text-decoration: underline;
 }
 
+a {
+  text-decoration: none;
+}
+
 .actions {
   display: flex;
   align-items: center;
@@ -108,6 +112,7 @@ body {
   width: 90%;
   margin: 0 auto;
 }
+
 .py-6 {
   padding-top: 105px;
 }
@@ -139,10 +144,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  background: url("https://via.placeholder.com/1200x400?text=Cyberpunk+2077")
-    center/cover no-repeat;
   border-radius: 10px;
-  transition: opacity 0.3s ease-in-out;
 }
 
 .overlay {
@@ -223,33 +225,6 @@ body {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.prev,
-.next {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 24px;
-  border-radius: 5px;
-  transition: background 0.3s;
-}
-
-.prev:hover,
-.next:hover {
-  background: rgba(0, 0, 0, 0.8);
-}
-
-.prev {
-  left: 10px;
-}
-
-.next {
-  right: 10px;
-}
-
-/* Секция Discover */
 .discover {
   max-width: 1200px;
   margin: 40px auto;
@@ -281,7 +256,141 @@ body {
   background: #555;
 }
 
-/* Адаптивность */
+.game-section {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  font-size: 24px;
+}
+
+.view-all {
+  color: #8247e5;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.view-all:hover {
+  text-decoration: underline;
+}
+
+.game-list {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.game-card {
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  width: calc(25% - 15px);
+  transition: transform 0.3s;
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+}
+
+.game-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.game-card .discount {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #8247e5;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.game-card-content {
+  padding: 15px;
+}
+
+.game-card-content h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.game-card-content .genres {
+  font-size: 12px;
+  color: #c7d5e0;
+  margin-bottom: 5px;
+}
+
+.game-card-content .developer {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.game-card-content .price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.game-card-content .price span {
+  font-size: 14px;
+}
+
+.game-card-content .price .original-price {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.game-card-content .price .discounted-price {
+  color: #00ff00;
+}
+
+.game-card-content .buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.game-card-content .buttons .install {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.game-card-content .buttons .wishlist {
+  background: transparent;
+  border: 1px solid #8247e5;
+  color: #8247e5;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.game-card-content .buttons .wishlist:hover {
+  background: #8247e5;
+  color: white;
+}
+
+@media (max-width: 1024px) {
+  .game-card {
+    width: calc(33.33% - 13.33px);
+  }
+}
+
 @media (max-width: 768px) {
   .game-slider {
     height: 300px;
@@ -294,30 +403,14 @@ body {
   .game-description {
     font-size: 14px;
   }
+
+  .game-card {
+    width: calc(50% - 10px);
+  }
 }
 
-.indicators {
-  position: absolute;
-  bottom: 5px; /* Как на изображении, ближе к низу */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 5px; /* Меньший зазор, как на изображении */
-}
-
-.indicator {
-  width: 20px; /* Длиннее, как на изображении */
-  height: 5px; /* Тоньше */
-  background: rgba(255, 255, 255, 0.3); /* Полупрозрачный серый */
-  border-radius: 2px; /* Слегка скруглённые углы */
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.indicator.active {
-  background: rgba(255, 255, 255, 0.8); /* Белый для активного индикатора */
-}
-
-.indicator:hover {
-  background: rgba(255, 255, 255, 0.5); /* Подсветка при наведении */
+@media (max-width: 480px) {
+  .game-card {
+    width: 100%;
+  }
 }
