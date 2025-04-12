@@ -415,16 +415,20 @@ a {
   margin-bottom: 10px;
 }
 
-.game-card-content .price span {
+.game-card-content span {
   font-size: 14px;
+  color: #00ff00;
 }
 
-.game-card-content .price .original-price {
+.game-card-content .original-price {
   text-decoration: line-through;
   color: #888;
 }
+.original {
+  color: #00ff00;
+}
 
-.game-card-content .price .discounted-price {
+.game-card-content .discounted-price {
   color: #00ff00;
 }
 
