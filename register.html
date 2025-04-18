@@ -216,10 +216,10 @@
           };
 
           users.push(newUser);
-          localStorage.setItem("users", JSON.stringify(users));
+          localStorage.setItem("isAuthenticated", "true");
           localStorage.setItem("currentUser", JSON.stringify(newUser));
           alert("Реєстрація успішна!");
-          window.location.href = "profile.html";
+          window.location.href = "index.html";
         }
       });
     </script>

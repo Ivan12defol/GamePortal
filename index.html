@@ -9,6 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <script src="./games.js" defer></script>
     <script src="./js.js" defer></script>
   </head>
   <body>
@@ -18,7 +19,7 @@
         <span>GamePortal</span>
       </div>
       <nav class="menu py-2">
-        <a href="#" class="font-medium">Магазин</a>
+        <a href="./index.html" class="font-medium">Магазин</a>
         <a href="#" class="font-medium">Бібліотека</a>
         <a href="#" class="font-medium">Друзі</a>
         <a href="#" class="font-medium">Спільнота</a>
@@ -48,18 +49,12 @@
               <div class="overlay"></div>
             </div>
             <div class="game-info">
-              <h2 class="game-title">Cyberpunk 2077</h2>
-              <p class="game-description font-medium">
-                Open-world RPG in Night City.
-              </p>
-              <div class="tags">
-                <span class="tag">RPG</span>
-                <span class="tag">Action</span>
-                <span class="tag">Open World</span>
-              </div>
+              <h2 class="game-title"></h2>
+              <p class="game-description font-medium"></p>
+              <div class="tags"></div>
               <div class="buttons">
-                <button class="install">Завантажити</button>
-                <button class="learn">Дізнайтеся більше</button>
+                <button class="install" data-game="">Завантажити</button>
+                <button class="learn" data-game="">Дізнайтеся більше</button>
               </div>
             </div>
           </div>
@@ -76,101 +71,36 @@
             <button>Adventure</button>
             <button>RPG</button>
             <button>Strategy</button>
+            <button>Simulation</button>
+            <button>Racing</button>
+            <button>Shooter</button>
+            <button>MOBA</button>
+            <button>Онлайн</button>
           </div>
         </section>
-        <!-- Секція "New Releases" -->
+
+        <div class="wishlist-header">
+          <a href="./wishlist.html">
+            <button id="wishlistButton" class="wishlist-btn">
+              Список бажань (<span id="wishlistCount">0</span>)
+            </button>
+          </a>
+        </div>
+
         <section class="game-section">
           <div class="section-header">
             <h2>New Releases</h2>
-            <a href="#" class="view-all">View All</a>
+            <a href="#" class="view-all">Дізнатись більше</a>
           </div>
-          <div class="game-list">
-            <!-- Картка 1 -->
-
-            <div class="game-card">
-              <div class="game-card-image">
-                <img src="./img/Cyberpunk.png" alt="Cyberpunk 2077" />
-                <span class="discount">-25%</span>
-              </div>
-              <div class="game-card-content">
-                <h3>Cyberpunk 2077</h3>
-                <div class="genres">RPG, Action</div>
-                <div class="developer">CD Projekt Red</div>
-                <div class="price">
-                  <span class="original-price">₴1099</span>
-                  <span class="discounted-price">₴824</span>
-                </div>
-                <div class="buttons">
-                  <button class="install">Завантажити</button>
-                  <button class="wishlist">♡</button>
-                </div>
-              </div>
-            </div>
-            <!-- Картка 2 -->
-            <div class="game-card">
-              <div class="game-card-image">
-                <img src="./img/inZOI.png" alt="inZOI" />
-              </div>
-              <div class="game-card-content">
-                <h3>inZOI</h3>
-                <div class="genres">Ранній доступ, Симулятор життя</div>
-                <div class="developer">InZO</div>
-                <div class="price">
-                  <span class="original">₴1199</span>
-                </div>
-                <div class="buttons">
-                  <button class="install">Завантажити</button>
-                  <button class="wishlist">♡</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="game-list" id="new-releases"></div>
         </section>
 
-        <!-- Секція "Popular Games" -->
         <section class="game-section">
           <div class="section-header">
             <h2>Popular Games</h2>
             <a href="#" class="view-all">View All</a>
           </div>
-          <div class="game-list">
-            <!-- Картка 1 -->
-            <div class="game-card">
-              <div class="game-card-image">
-                <img src="./img/cs.png" alt="Counter-Strike 2" />
-              </div>
-              <div class="game-card-content">
-                <h3>Counter-Strike 2</h3>
-                <div class="genres">Shooter, Tactics</div>
-                <div class="developer">Valve</div>
-                <div class="price">
-                  <span>Безкоштовне</span>
-                </div>
-                <div class="buttons">
-                  <button class="install">Завантажити</button>
-                  <button class="wishlist">♡</button>
-                </div>
-              </div>
-            </div>
-            <!-- Картка 2 -->
-            <div class="game-card">
-              <div class="game-card-image">
-                <img src="./img/Dota 2.png" alt="Dota 2" />
-              </div>
-              <div class="game-card-content">
-                <h3>Dota 2</h3>
-                <div class="genres">MOBA, Для кількох гравців</div>
-                <div class="developer">Valve</div>
-                <div class="price">
-                  <span>Безкоштовне</span>
-                </div>
-                <div class="buttons">
-                  <button class="install">Завантажити</button>
-                  <button class="wishlist">♡</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="game-list" id="popular-games"></div>
         </section>
       </div>
     </main>
