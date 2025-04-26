@@ -11,7 +11,6 @@ body {
   font-family: "Times New Roman", Times, serif;
 }
 
-/* Навігація */
 .navbar {
   position: fixed;
   top: 0;
@@ -109,7 +108,6 @@ a {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Контейнер */
 .container {
   width: 90%;
   margin: 0 auto;
@@ -119,7 +117,6 @@ a {
   padding-top: 105px;
 }
 
-/* Сторінка гри */
 .game-details {
   max-width: 1200px;
   margin: 0 auto;
@@ -131,7 +128,6 @@ a {
   margin-bottom: 20px;
 }
 
-/* Частина: іконка та опис (тепер справа) */
 .game-details-left {
   flex: 1;
   display: flex;
@@ -152,7 +148,6 @@ a {
   line-height: 1.5;
 }
 
-/* Частина: слайдер (тепер зліва) */
 .game-details-slider {
   flex: 2;
   display: flex;
@@ -234,7 +229,6 @@ a {
   border: 2px solid #8247e5;
 }
 
-/* Нижня частина: ціна та кнопки */
 .game-details-footer {
   margin-bottom: 40px;
 }
@@ -265,7 +259,7 @@ a {
 }
 
 .discounted-price {
-  color: white;
+  color: #00ff00;
   font-size: 18px;
   font-weight: bold;
 }
@@ -311,7 +305,6 @@ a {
   background: #8247e5;
 }
 
-/* Опис гри */
 .game-description {
   margin-bottom: 40px;
 }
@@ -327,7 +320,6 @@ a {
   color: #c7d5e0;
 }
 
-/* Модальне вікно */
 .modal {
   display: none;
   position: fixed;
@@ -386,7 +378,6 @@ a {
   background: #6a37c3;
 }
 
-/* Адаптивність */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
