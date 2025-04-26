@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyberpunk 2077 - GamePortal</title>
+    <link rel="stylesheet" href="./games.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./games.js" defer></script>
+    <script src="./js.js" defer></script>
+  </head>
+  <body>
+    <header class="navbar border-b w-full font-medium">
+      <div class="logo">
+        <a href="../index.html"><div class="icon">GP</div></a>
+        <span>GamePortal</span>
+      </div>
+      <nav class="menu py-2">
+        <a href="../index.html" class="font-medium">Магазин</a>
+        <a href="#" class="font-medium">Бібліотека</a>
+        <a href="#" class="font-medium">Друзі</a>
+        <a href="#" class="font-medium">Спільнота</a>
+        <a href="#" class="font-medium">Підтримка</a>
+      </nav>
+      <div class="actions">
+        <div class="search-container">
+          <img
+            src="../img/free-icon-font-search.png"
+            alt="Search Icon"
+            class="search-icon"
+          />
+          <input
+            type="text"
+            placeholder="Search games..."
+            class="search font-medium"
+          />
+        </div>
+        <div id="auth-section">
+          <a href="../login.html">
+            <button class="signin font-medium">Sign In</button>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="container py-6">
+      <div class="container">
+        <div class="game-details">
+          <div class="game-details-header">
+           
+            <div class="game-details-slider">
+              <div class="slider-container">
+                <div class="slides">
+                  <img src="../img/Cyberpunk_1.png" alt="Cyberpunk 2077 Slide 1" class="slide active" />
+                  <img src="../img/cyberpunk2.jpg" alt="Cyberpunk 2077 Slide 2" class="slide" />
+                  <img src="../img/cyberpunk3.jpg" alt="Cyberpunk 2077 Slide 3" class="slide" />
+                  <img src="../img/cyberpunk4.jpg" alt="Cyberpunk 2077 Slide 4" class="slide" />
+                </div>
+                <button class="prev">❮</button>
+                <button class="next">❯</button>
+              </div>
+              <div class="thumbnails">
+                <img src="../img/Cyberpunk_1.png" alt="Cyberpunk 2077 Thumbnail 1" class="thumbnail active" data-slide="0" />
+                <img src="../img/cyberpunk2.jpg" alt="Cyberpunk 2077 Thumbnail 2" class="thumbnail" data-slide="1" />
+                <img src="../img/cyberpunk3.jpg" alt="Cyberpunk 2077 Thumbnail 3" class="thumbnail" data-slide="2" />
+                <img src="../img/cyberpunk4.jpg" alt="Cyberpunk 2077 Thumbnail 4" class="thumbnail" data-slide="3" />
+              </div>
+            </div>
+            
+            <div class="game-details-left">
+              <img
+                src="../img/Cyberpunk.png"
+                alt="Cyberpunk 2077 Icon"
+                class="game-icon"
+              />
+              <p class="game-short-description">
+                Cyberpunk 2077 — пригодницька рольова гра з відкритим світом, дія
+                якої відбувається в мегаполісі Night City, де ви виступаєте в ролі
+                найманця V.
+              </p>
+            </div>
+          </div>
+          
+          <div class="game-details-footer">
+            <div class="genres">RPG, Action</div>
+            <div class="developer">Developed by CD Projekt Red</div>
+            <div class="price">
+              <span class="original-price">₴1099</span>
+              <span class="discounted-price">₴824</span>
+              <span class="discount">(-25%)</span>
+            </div>
+            <div class="buttons">
+              <button class="install" data-game="cyberpunk-2077">Завантажити</button>
+              <button class="wishlist">♡ Додати до списку бажань</button>
+            </div>
+          </div>
+          
+          <div class="game-description">
+            <h2>Про гру</h2>
+            <p>
+              Cyberpunk 2077 — це рольова гра з відкритим світом, дія якої
+              відбувається в мегаполісі Night City. Ви граєте за V, найманця,
+              який шукає імплант, що дарує безсмертя. Досліджуйте величезне
+              місто, налаштовуйте свого персонажа та приймайте рішення, які
+              вплинуть на історію.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+   
+    <div id="downloadModal" class="modal">
+      <div class="modal-content">
+        <span id="closeModal" class="close">×</span>
+        <h2>Завантаження гри</h2>
+        <p id="modalMessage">На жаль, на цьому сайті ви не можете завантажити гру.</p>
+        <div id="downloadLinks" class="download-links"></div>
+      </div>
+    </div>
+    <script>
+      
+      document.addEventListener("DOMContentLoaded", () => {
+        const slides = document.querySelectorAll(".slide");
+        const thumbnails = document.querySelectorAll(".thumbnail");
+        const prevBtn = document.querySelector(".prev");
+        const nextBtn = document.querySelector(".next");
+        let currentSlide = 0;
+
+        function showSlide(index) {
+          slides.forEach((slide, i) => {
+            slide.classList.toggle("active", i === index);
+            thumbnails[i].classList.toggle("active", i === index);
+          });
+          currentSlide = index;
+        }
+
+        thumbnails.forEach((thumbnail, index) => {
+          thumbnail.addEventListener("click", () => {
+            showSlide(index);
+          });
+        });
+
+        prevBtn.addEventListener("click", () => {
+          let newSlide = currentSlide - 1;
+          if (newSlide < 0) newSlide = slides.length - 1;
+          showSlide(newSlide);
+        });
+
+        nextBtn.addEventListener("click", () => {
+          let newSlide = currentSlide + 1;
+          if (newSlide >= slides.length) newSlide = 0;
+          showSlide(newSlide);
+        });
+
+      
+        setInterval(() => {
+          let newSlide = currentSlide + 1;
+          if (newSlide >= slides.length) newSlide = 0;
+          showSlide(newSlide);
+        }, 5000);
+      });
+    </script>
+  </body>
+</html>
