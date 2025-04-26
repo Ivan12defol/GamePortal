@@ -2,16 +2,13 @@
 let currentGame = 0;
 let sliderGames = [];
 
-// Очікуємо завантаження DOM і всіх скриптів
 document.addEventListener("DOMContentLoaded", () => {
-  // Діагностика: чи доступний games
   if (typeof games === "undefined") {
     console.error("Масив games не визначений. Перевірте, чи завантажується games.js");
     return;
   }
   console.log("DOM завантажено, ігор у games:", games.length);
 
-  // Ініціалізація слайдера
   sliderGames = games.filter((game) => game.inSlider === true);
   console.log("Ігор у слайдері:", sliderGames.length);
 
@@ -25,10 +22,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const installButton = document.querySelector(".game-slider .install");
   const learnButton = document.querySelector(".game-slider .learn");
 
+  // Діагностика: перевіряємо, чи знайдено кнопки
+  console.log("installButton:", installButton);
+  console.log("learnButton:", learnButton);
+
   function updateGame() {
     if (sliderGames.length === 0) {
       console.warn("Немає ігор для слайдера (inSlider: true)");
       return;
+    }
+
+    // Ініціалізація модального вікна
+    const modal = document.getElementById("downloadModal");
+    const closeModal = document.getElementById("closeModal");
+    const downloadLinksContainer = document.getElementById("downloadLinks");
+
+    console.log("modal:", modal);
+    console.log("closeModal:", closeModal);
+    console.log("downloadLinksContainer:", downloadLinksContainer);
+
+    // Закриття модального вікна
+    if (closeModal && modal) {
+      closeModal.onclick = () => {
+        modal.style.display = "none";
+        console.log("Модальне вікно закрито через кнопку закриття");
+      };
+    }
+
+    // Закриття модального вікна при кліку поза ним
+    if (modal) {
+      window.onclick = (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+          console.log("Модальне вікно закрито через клік поза вікном");
+        }
+      };
+    } else {
+      console.error("Модальне вікно не знайдено, перевірте ID 'downloadModal'");
     }
 
     const game = sliderGames[currentGame];
@@ -49,18 +79,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const gameId = game.title.toLowerCase().replace(/\s+/g, "-");
+    const gamePageUrl = `./games/${gameId}.html`;
+
     if (installButton) {
       installButton.dataset.game = gameId;
-      installButton.onclick = (event) => {
-        event.preventDefault();
-        window.location.href = `./download/${gameId}.html`;
-      };
+      installButton.removeEventListener("click", handleInstallClick);
+      installButton.addEventListener("click", handleInstallClick);
     }
+
     if (learnButton) {
       learnButton.dataset.game = gameId;
       learnButton.onclick = (event) => {
         event.preventDefault();
-        window.location.href = `./games/${gameId}.html`;
+        window.location.href = gamePageUrl;
       };
     }
 
@@ -69,6 +100,59 @@ document.addEventListener("DOMContentLoaded", () => {
       indicators.forEach((indicator, index) => {
         indicator.classList.toggle("active", index === currentGame);
       });
+    }
+  }
+
+  // Функція обробника для кнопки "Завантажити"
+  function handleInstallClick(event) {
+    event.preventDefault();
+    console.log("Кнопка 'Завантажити' натиснута");
+    const gameId = event.target.dataset.game;
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    if (!isAuthenticated) {
+      console.log("Користувач не авторизований, перенаправлення на login.html");
+      window.location.href = "./login.html";
+      return;
+    }
+
+    // Знаходимо гру за gameId
+    const game = games.find(
+      (g) => g.title.toLowerCase().replace(/\s+/g, "-") === gameId
+    );
+    if (!game) {
+      console.warn("Гру не знайдено:", gameId);
+      return;
+    }
+
+    // Повторно знаходимо модальне вікно
+    const modal = document.getElementById("downloadModal");
+    const downloadLinksContainer = document.getElementById("downloadLinks");
+
+    // Відкриваємо модальне вікно
+    if (modal) {
+      modal.style.display = "flex";
+      console.log("Модальне вікно відкрито для гри:", gameId);
+    } else {
+      console.error("Модальне вікно не знайдено під час спроби відкрити");
+      return;
+    }
+
+    // Додаємо посилання у модальне вікно
+    if (downloadLinksContainer) {
+      downloadLinksContainer.innerHTML = "";
+      if (game.downloadLinks && game.downloadLinks.length > 0) {
+        game.downloadLinks.forEach((link) => {
+          const a = document.createElement("a");
+          a.href = link.url;
+          a.textContent = link.platform;
+          a.target = "_blank";
+          downloadLinksContainer.appendChild(a);
+        });
+        console.log("Посилання додані у модальне вікно:", game.downloadLinks);
+      } else {
+        downloadLinksContainer.innerHTML = "<p>Посилання для завантаження відсутні.</p>";
+        console.warn("Посилання для завантаження не знайдено для гри:", gameId);
+      }
     }
   }
 
@@ -110,7 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeSlider();
   }
 
-  // Відображення авторизації в шапці
   const authSection = document.getElementById("auth-section");
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -131,7 +214,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Функція для створення карточки гри
   function createGameCard(gameData, gameId) {
     const gameCard = document.createElement("div");
     gameCard.classList.add("game-card");
@@ -141,8 +223,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const originalPrice = gameData.originalPrice || gameData.description;
     const discountedPrice = gameData.discount ? gameData.description : "";
 
+    const gamePageUrl = `./games/${gameId}.html`;
+
     gameCard.innerHTML = `
-      <a href="./games/${gameId}.html" class="game-card-link">
+      <a href="${gamePageUrl}" class="game-card-link">
         <div class="game-card-image">
           <img src="${gameData.image}" alt="${gameData.title}" />
           ${discount}
@@ -165,7 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return gameCard;
   }
 
-  // Логіка списку бажань
   function updateWishlistUI(wishlist) {
     const wishlistCount = document.getElementById("wishlistCount");
     if (wishlistCount) {
@@ -204,7 +287,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateWishlistUI(wishlist);
   }
 
-  // Логіка для wishlist.html
   function renderWishlistPage(wishlist) {
     const wishlistGamesContainer = document.getElementById("wishlist-games");
     const wishlistEmptyMessage = document.getElementById("wishlist-empty");
@@ -235,7 +317,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateWishlistUI(wishlist);
   }
 
-  // Основна логіка
   const isWishlistPage = window.location.pathname.includes("wishlist.html");
   let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
@@ -302,10 +383,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const wishlistButton = buttonContainer.querySelector(".wishlist");
 
     if (installButton) {
-      installButton.addEventListener("click", (event) => {
-        event.preventDefault();
-        window.location.href = `./download/${gameId}.html`;
-      });
+      installButton.dataset.game = gameId;
+      installButton.addEventListener("click", handleInstallClick);
     }
 
     if (wishlistButton) {
