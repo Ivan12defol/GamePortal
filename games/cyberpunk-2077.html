@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cyberpunk 2077 - GamePortal</title>
+    <title>Cyberpunk 2077</title>
     <link rel="stylesheet" href="./games.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <script src="./games.js" defer></script>
-    <script src="./js.js" defer></script>
+    <script src="../games.js" defer></script>
+    <script src="./gamePage.js" defer></script>
   </head>
   <body>
     <header class="navbar border-b w-full font-medium">
@@ -20,24 +20,12 @@
       </div>
       <nav class="menu py-2">
         <a href="../index.html" class="font-medium">Магазин</a>
-        <a href="#" class="font-medium">Бібліотека</a>
+        <a href="../library.html" class="font-medium">Бібліотека</a>
         <a href="#" class="font-medium">Друзі</a>
         <a href="#" class="font-medium">Спільнота</a>
         <a href="#" class="font-medium">Підтримка</a>
       </nav>
       <div class="actions">
-        <div class="search-container">
-          <img
-            src="../img/free-icon-font-search.png"
-            alt="Search Icon"
-            class="search-icon"
-          />
-          <input
-            type="text"
-            placeholder="Search games..."
-            class="search font-medium"
-          />
-        </div>
         <div id="auth-section">
           <a href="../login.html">
             <button class="signin font-medium">Sign In</button>
@@ -58,7 +46,7 @@
                     class="slide active"
                   />
                   <img
-                    src="../img/cyberpunk2.jpg"
+                    src="../img/2"
                     alt="Cyberpunk 2077 Slide 2"
                     class="slide"
                   />
@@ -107,7 +95,7 @@
             <div class="game-details-left">
               <img
                 src="../img/Cyberpunk.png"
-                alt="Cyberpunk 2077 Icon"
+                alt="Cyberpunk 2077"
                 class="game-icon"
               />
               <p class="game-short-description">
@@ -132,7 +120,7 @@
               <span class="discounted-price">₴824</span>
               <span class="discount">(-25%)</span>
             </div>
-            <div class="buttons">
+            <div class="buttons" data-game="cyberpunk-2077">
               <button class="install" data-game="cyberpunk-2077">
                 Завантажити
               </button>
@@ -182,51 +170,14 @@
         <span id="closeModal" class="close">×</span>
         <h2>Завантаження гри</h2>
         <p id="modalMessage">
-          На жаль, на цьому сайті ви не можете завантажити гру.
+          На жаль, завантаження гри на цьому сайті наразі недоступне. Однак ви
+          можете завантажити гру з офіційного сайту, щоб забезпечити коректну
+          роботу всіх функцій.
         </p>
         <div id="downloadLinks" class="download-links"></div>
       </div>
     </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const slides = document.querySelectorAll(".slide");
-        const thumbnails = document.querySelectorAll(".thumbnail");
-        const prevBtn = document.querySelector(".prev");
-        const nextBtn = document.querySelector(".next");
-        let currentSlide = 0;
 
-        function showSlide(index) {
-          slides.forEach((slide, i) => {
-            slide.classList.toggle("active", i === index);
-            thumbnails[i].classList.toggle("active", i === index);
-          });
-          currentSlide = index;
-        }
-
-        thumbnails.forEach((thumbnail, index) => {
-          thumbnail.addEventListener("click", () => {
-            showSlide(index);
-          });
-        });
-
-        prevBtn.addEventListener("click", () => {
-          let newSlide = currentSlide - 1;
-          if (newSlide < 0) newSlide = slides.length - 1;
-          showSlide(newSlide);
-        });
-
-        nextBtn.addEventListener("click", () => {
-          let newSlide = currentSlide + 1;
-          if (newSlide >= slides.length) newSlide = 0;
-          showSlide(newSlide);
-        });
-
-        setInterval(() => {
-          let newSlide = currentSlide + 1;
-          if (newSlide >= slides.length) newSlide = 0;
-          showSlide(newSlide);
-        }, 5000);
-      });
-    </script>
+    <script></script>
   </body>
 </html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counter-Strike 2</title>
+    <link rel="stylesheet" href="./games.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="../games.js" defer></script>
+  </head>
+  <body>
+    <header class="navbar border-b w-full font-medium">
+      <div class="logo">
+        <a href="../index.html"><div class="icon">GP</div></a>
+        <span>GamePortal</span>
+      </div>
+      <nav class="menu py-2">
+        <a href="../index.html" class="font-medium">Магазин</a>
+        <a href="#" class="font-medium">Бібліотека</a>
+        <a href="#" class="font-medium">Друзі</a>
+        <a href="#" class="font-medium">Спільнота</a>
+        <a href="#" class="font-medium">Підтримка</a>
+      </nav>
+      <div class="actions">
+        <div id="auth-section">
+          <a href="../login.html">
+            <button class="signin font-medium">Sign In</button>
+          </a>
+        </div>
+      </div>
+    </header>
+    <main class="container py-6">
+      <div class="container">
+        <div class="game-details">
+          <div class="game-details-header">
+            <div class="game-details-slider">
+              <div class="slider-container">
+                <div class="slides">
+                  <img src="../img/cs_1.png" class="slide active" />
+                  <img src="../img/cs_2.png" class="slide" />
+                  <img src="../img/cs_3.png" class="slide" />
+                  <img src="../img/cs_4.png" class="slide" />
+                </div>
+                <button class="prev">❮</button>
+                <button class="next">❯</button>
+              </div>
+              <div class="thumbnails">
+                <img
+                  src="../img/cs_1.png"
+                  class="thumbnail active"
+                  data-slide="0"
+                />
+                <img src="../img/cs_2.png" class="thumbnail" data-slide="1" />
+                <img src="../img/cs_3.png" class="thumbnail" data-slide="2" />
+                <img src="../img/cs_4.png" class="thumbnail" data-slide="3" />
+              </div>
+            </div>
+
+            <div class="game-details-left">
+              <img src="../img/Red Dead Redemption 2.png" class="game-icon" />
+              <p class="game-short-description">
+                <strong>Counter-Strike 2 (CS2) </strong>— це багатокористувацька
+                тактична стрілянка від першої особи, розроблена компанією Valve
+                Corporation. Вона є наступником легендарної Counter-Strike:
+                Global Offensive (CS:GO) і була офіційно випущена 27 вересня
+                2023 року. CS2 базується на новому рушії Source 2, що забезпечує
+                покращену графіку, фізику та ігрові механіки, зберігаючи при
+                цьому класичний геймплей, який зробив серію культовою.
+              </p>
+            </div>
+          </div>
+
+          <div class="game-details-footer">
+            <div class="genres">Shooter, Tactics</div>
+            <div class="developer">sValve</div>
+            <div class="price">
+              <span class="original-price">₴1099</span>
+              <span class="discounted-price">₴824</span>
+              <span class="discount">(-25%)</span>
+            </div>
+            <div class="buttons" data-game="red-dead-redemption-2">
+              <button class="install" data-game="red-dead-redemption-2">
+                Завантажити
+              </button>
+              <button class="wishlist">♡ Додати до списку бажань</button>
+            </div>
+          </div>
+
+          <div class="game-description">
+            <h2>Counter-Strike 2: Детальний огляд шутера</h2>
+            <p>
+              Counter-Strike 2 (CS2) — це довгоочікуване продовження легендарної
+              серії тактичних шутерів від Valve. Гра вийшла 27 вересня 2023 року
+              на базі рушія Source 2 як безкоштовне оновлення для
+              Counter-Strike: Global Offensive (CS:GO). CS2 зберігає класичну
+              формулу серії — протистояння команд терористів і спецпризначенців
+              — але пропонує глибокі технічні та візуальні покращення.
+            </p>
+            <br />
+            <h2>Геймплей</h2>
+            <p>
+              Основна механіка CS2 залишилася знайомою шанувальникам серії:
+              короткі раунди, необхідність точної стрільби, стратегічне
+              планування і командна співпраця. Гравці беруть участь у класичних
+              режимах на кшталт "Закладка бомби" чи "Рятування заручників", де
+              одна команда ставить завдання, а інша намагається його зірвати.
+            </p>
+            <br />
+            <h3>Геймплей</h3>
+            <p>
+              CS2 ввела нову Premier-режим — офіційний рейтинг матчів із картою
+              пік/бан карт на початку гри. Крім того, Valve оновила CS Rating,
+              систему оцінювання гравців, що тепер базується на перемогах та
+              виступах у матчах на окремих картах. Також залишилися класичні
+              змагальні, звичайні, дезматчі й інші режими для різного стилю гри.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="downloadModal" class="modal">
+      <div class="modal-content">
+        <span id="closeModal" class="close">×</span>
+        <h2>Завантаження гри</h2>
+        <p id="modalMessage">
+          На жаль, на цьому сайті ви не можете завантажити гру.
+        </p>
+        <div id="downloadLinks" class="download-links"></div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Логіка для слайдера
+        const slides = document.querySelectorAll(".slide");
+        const thumbnails = document.querySelectorAll(".thumbnail");
+        const prevBtn = document.querySelector(".prev");
+        const nextBtn = document.querySelector(".next");
+        let currentSlide = 0;
+
+        function showSlide(index) {
+          slides.forEach((slide, i) => {
+            slide.classList.toggle("active", i === index);
+            thumbnails[i].classList.toggle("active", i === index);
+          });
+          currentSlide = index;
+        }
+
+        thumbnails.forEach((thumbnail, index) => {
+          thumbnail.addEventListener("click", () => {
+            showSlide(index);
+          });
+        });
+
+        prevBtn.addEventListener("click", () => {
+          let newSlide = currentSlide - 1;
+          if (newSlide < 0) newSlide = slides.length - 1;
+          showSlide(newSlide);
+        });
+
+        nextBtn.addEventListener("click", () => {
+          let newSlide = currentSlide + 1;
+          if (newSlide >= slides.length) newSlide = 0;
+          showSlide(newSlide);
+        });
+
+        setInterval(() => {
+          let newSlide = currentSlide + 1;
+          if (newSlide >= slides.length) newSlide = 0;
+          showSlide(newSlide);
+        }, 5000);
+
+        // Логіка авторизації
+        const authSection = document.getElementById("auth-section");
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (authSection) {
+          if (currentUser) {
+            authSection.innerHTML = `
+              <a href="../profile.html" style="display: flex; align-items: center; gap: 10px;">
+                <img src="${
+                  currentUser.avatar || "../img/avatars.png"
+                }" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
+                <button class="signin font-medium">${
+                  currentUser.username
+                }</button>
+              </a>
+            `;
+          } else {
+            authSection.innerHTML = `
+              <a href="../login.html">
+                <button class="signin font-medium">Sign In</button>
+              </a>
+            `;
+          }
+        }
+
+        // Ініціалізація модального вікна
+        const modal = document.getElementById("downloadModal");
+        const closeModal = document.getElementById("closeModal");
+
+        if (closeModal && modal) {
+          closeModal.onclick = () => {
+            modal.style.display = "none";
+          };
+        }
+
+        if (modal) {
+          window.onclick = (event) => {
+            if (event.target === modal) {
+              modal.style.display = "none";
+            }
+          };
+        }
+
+        // Логіка для кнопок "Завантажити" і "Додати до списку бажань"
+        document.querySelectorAll(".buttons").forEach((buttonContainer) => {
+          const gameId = buttonContainer.dataset.game;
+          const installButton = buttonContainer.querySelector(".install");
+          const wishlistButton = buttonContainer.querySelector(".wishlist");
+
+          if (installButton) {
+            installButton.dataset.game = gameId;
+            installButton.addEventListener("click", (event) => {
+              event.preventDefault();
+              const isAuthenticated =
+                localStorage.getItem("isAuthenticated") === "true";
+              if (!isAuthenticated) {
+                window.location.href = "../login.html";
+                return;
+              }
+
+              const game = games.find(
+                (g) => g.title.toLowerCase().replace(/\s+/g, "-") === gameId
+              );
+              if (!game) {
+                console.warn("Гру не знайдено:", gameId);
+                return;
+              }
+
+              const modal = document.getElementById("downloadModal");
+              const downloadLinksContainer =
+                document.getElementById("downloadLinks");
+
+              if (modal) {
+                modal.style.display = "flex";
+              }
+
+              if (downloadLinksContainer) {
+                downloadLinksContainer.innerHTML = "";
+                if (game.downloadLinks && game.downloadLinks.length > 0) {
+                  game.downloadLinks.forEach((link) => {
+                    const a = document.createElement("a");
+                    a.href = link.url;
+                    a.textContent = link.platform;
+                    a.target = "_blank";
+                    downloadLinksContainer.appendChild(a);
+                  });
+                } else {
+                  downloadLinksContainer.innerHTML =
+                    "<p>Посилання для завантаження відсутні.</p>";
+                }
+              }
+            });
+          }
+
+          if (wishlistButton) {
+            const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+            wishlistButton.textContent = wishlist.includes(gameId)
+              ? "♥ У списку бажань"
+              : "♡ Додати до списку бажань";
+
+            wishlistButton.addEventListener("click", (event) => {
+              event.preventDefault();
+              const isAuthenticated =
+                localStorage.getItem("isAuthenticated") === "true";
+              if (!isAuthenticated) {
+                window.location.href = "../login.html";
+                return;
+              }
+
+              let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+              const isInWishlist = wishlist.includes(gameId);
+
+              if (isInWishlist) {
+                wishlist = wishlist.filter((id) => id !== gameId);
+                wishlistButton.textContent = "♡ Додати до списку бажань";
+              } else {
+                wishlist.push(gameId);
+                wishlistButton.textContent = "♥ У списку бажань";
+              }
+
+              localStorage.setItem("wishlist", JSON.stringify(wishlist));
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
