@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Бібліотека</title>
+    <link rel="stylesheet" href="./library.css" />
+    <script src="./games.js" defer></script>
+    <script src="./js.js" defer></script>
+    <script src="./games/gamePage.js" defer></script>
+    <script src="./library.js" defer></script>
+  </head>
+  <body class="library-page">
+    <header class="navbar border-b w-full font-medium">
+      <div class="logo">
+        <a href="./index.html"><div class="icon">GP</div></a>
+        <span>GamePortal</span>
+      </div>
+      <nav class="menu py-2">
+        <a href="./index.html" class="font-medium">Магазин</a>
+        <a href="./library.html" class="font-medium">Бібліотека</a>
+        <a href="#" class="font-medium">Друзі</a>
+        <a href="#" class="font-medium">Спільнота</a>
+        <a href="#" class="font-medium">Підтримка</a>
+      </nav>
+      <div class="actions">
+        <div id="auth-section"></div>
+      </div>
+    </header>
+
+    <div class="library-container">
+      <aside class="sidebar">
+        <h3>Бібліотека</h3>
+        <ul class="game-list">
+          <li class="game-item active">Всі ігри</li>
+        </ul>
+      </aside>
+      <main class="main-content">
+        <div class="game-grid" id="library-games"></div>
+        <div id="library-empty" style="display: none">
+          Ваша бібліотека порожня.
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

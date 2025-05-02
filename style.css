@@ -22,6 +22,7 @@ body {
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(3px);
 }
 
 .logo {
@@ -174,7 +175,7 @@ a {
 }
 
 .game-description {
-  color: rgb(0 255 0);
+  color: rgb(0, 255, 0);
   font-size: 16px;
   margin-bottom: 15px;
 }
@@ -256,31 +257,13 @@ a {
   max-width: 1200px;
   margin: 40px auto;
   padding: 0 20px;
+  text-align: center;
 }
 
 .discover h2 {
   font-size: 24px;
   margin-bottom: 20px;
-}
-
-.filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.filters button {
-  padding: 8px 15px;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.filters button:hover {
-  background: #555;
+  color: #fff;
 }
 
 @media (max-width: 768px) {
@@ -294,6 +277,14 @@ a {
 
   .game-description {
     font-size: 14px;
+  }
+
+  .navbar {
+    padding: 15px 20px;
+  }
+
+  .discover h2 {
+    font-size: 20px;
   }
 }
 
@@ -374,6 +365,7 @@ a {
 
 .game-card img {
   width: 100%;
+  height: 150px;
   object-fit: cover;
 }
 
@@ -441,15 +433,15 @@ a {
 
 .game-card-content .buttons .install {
   flex: 1;
-  padding: 9px 50px; 
-  font-size: 15px; 
+  padding: 9px 50px;
+  font-size: 15px;
   background: #8247e5;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 .game-card-content .buttons .install:hover {
@@ -576,4 +568,88 @@ a {
 .download-links a:hover {
   background: #6b38c2;
   transform: translateY(-1px);
+}
+
+.filter-container {
+  position: relative;
+}
+
+.toggle-section-filters {
+  background: linear-gradient(135deg, #8247e5, #a36dff);
+  color: #fff;
+  padding: 8px 16px;
+  margin-bottom: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.toggle-section-filters:hover {
+  background: linear-gradient(135deg, #6b38c2, #9358ff);
+  transform: scale(1.03);
+}
+
+.section-filters-grid {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #1b1f2a;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+  display: none;
+  z-index: 998;
+  width: 200px;
+}
+
+.section-filters-grid.active {
+  display: block;
+}
+
+.section-filters-grid button {
+  background: linear-gradient(135deg, #8247e5, #a36dff);
+  color: #fff;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.section-filters-grid button:hover {
+  background: linear-gradient(135deg, #6b38c2, #9358ff);
+  transform: scale(1.03);
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .section-filters-grid {
+    width: 150px;
+  }
+
+  .toggle-section-filters {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .section-filters-grid button {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-filters-grid {
+    width: 120px;
+  }
 }
