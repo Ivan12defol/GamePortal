@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!isLibraryPage) return;
 
   // Отримуємо користувача з атрибута data-user
-  const user = document.body.getAttribute("data-user") || "miniagusha2";
+  const user = document.body.getAttribute("data-user");
   console.log("Поточний користувач:", user);
 
   // Переконуємося, що основний js.js завантажений

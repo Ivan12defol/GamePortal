@@ -113,12 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Логіка авторизації
   const authSection = document.getElementById("auth-section");
-  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {
-    username: document.body.getAttribute("data-user") || "miniagusha2",
-  };
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
   if (authSection) {
-    if (currentUser) {
+    if (isAuthenticated && currentUser) {
       authSection.innerHTML = `
         <a href="./profile.html" style="display: flex; align-items: center; gap: 10px;">
             <img src="${
@@ -320,7 +319,6 @@ document.addEventListener("DOMContentLoaded", () => {
       console.warn("Посилання для завантаження не знайдено для гри:", gameId);
     }
 
-    // Додаємо обробник для закриття модального вікна на хрестик
     if (closeModal) {
       closeModal.onclick = () => {
         console.log("Закриття модального вікна через хрестик");
@@ -364,6 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
     updateWishlistUI(wishlist);
+    renderWishlistOrLibrary();
   }
 
   // Функція для налаштування глобального фільтра
@@ -416,6 +415,88 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Функція для рендерингу списку бажань або бібліотеки
+  function renderWishlistOrLibrary() {
+    const isWishlistPage = window.location.pathname.includes("wishlist.html");
+    const isLibraryPage = window.location.pathname.includes("library.html");
+    const container = isWishlistPage
+      ? document.getElementById("wishlist-games")
+      : isLibraryPage
+      ? document.getElementById("library-games")
+      : null;
+
+    if (!container) {
+      console.warn("Контейнер для wishlist або library не знайдено");
+      return;
+    }
+
+    container.innerHTML = ""; // Очищаємо контейнер перед рендерингом
+
+    let gameIds = [];
+    if (isWishlistPage) {
+      gameIds = JSON.parse(localStorage.getItem("wishlist")) || [];
+      console.log("Список бажань:", gameIds);
+    } else if (isLibraryPage) {
+      const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {
+        username: "miniagusha2",
+      };
+      gameIds = window.getUserLibrary() || [];
+      console.log("Бібліотека:", gameIds);
+    }
+
+    if (gameIds.length === 0) {
+      container.innerHTML = "<p>Список порожній.</p>";
+      return;
+    }
+
+    gameIds.forEach((gameId) => {
+      const game = games.find(
+        (g) => g.title.toLowerCase().replace(/\s+/g, "-") === gameId
+      );
+      if (game) {
+        const card = window.createGameCard(game, gameId);
+        container.appendChild(card);
+      } else {
+        console.warn(`Гра з ID ${gameId} не знайдена в масиві games`);
+      }
+    });
+
+    // Прив’язка обробників до нових кнопок
+    document
+      .querySelectorAll("#" + container.id + " .buttons")
+      .forEach((buttonContainer) => {
+        const gameId = buttonContainer.dataset.game;
+        const installButton = buttonContainer.querySelector(".install");
+        const wishlistButton = buttonContainer.querySelector(".wishlist");
+        const removeButton = buttonContainer.querySelector(".remove");
+
+        if (installButton) {
+          installButton.dataset.game = gameId;
+          installButton.addEventListener("click", handleInstallClick);
+        }
+
+        if (wishlistButton) {
+          wishlistButton.dataset.game = gameId;
+          wishlistButton.addEventListener("click", handleWishlistButtonClick);
+        }
+
+        if (removeButton) {
+          removeButton.dataset.game = gameId;
+          removeButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            const gameId = event.target.closest(".buttons").dataset.game;
+            let library = window.getUserLibrary();
+            if (library.includes(gameId)) {
+              library = library.filter((id) => id !== gameId);
+              window.saveUserLibrary(library);
+              console.log("Гра видалена з бібліотеки:", gameId);
+              renderWishlistOrLibrary(); // Перерендеринг після видалення
+            }
+          });
+        }
+      });
+  }
+
   // Ініціалізація списку бажань при завантаженні
   let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
   updateWishlistUI(wishlist);
@@ -462,6 +543,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const filtersGrid = document.querySelector(".section-filters-grid");
 
     setupGlobalFilters(allGameContainers, toggleButton, filtersGrid);
+  } else {
+    renderWishlistOrLibrary();
   }
 
   // Прив’язка обробників до кнопок "Завантажити" і "Додати до списку бажань"
@@ -478,6 +561,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (wishlistButton) {
+        wishlistButton.dataset.game = gameId;
         wishlistButton.addEventListener("click", handleWishlistButtonClick);
       }
     });

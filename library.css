@@ -93,7 +93,6 @@ a {
   font-family: "Roboto", sans-serif;
 }
 
-/* Основні стилі для бібліотеки */
 .library-container {
   display: flex;
   margin-top: 80px;
@@ -102,7 +101,7 @@ a {
 
 .sidebar {
   width: 240px;
-  background-color: #17141d;
+  background-color: #262131;
   padding: 15px;
 }
 
@@ -126,7 +125,7 @@ a {
 .game-item:hover,
 .game-item.active {
   color: white;
-  background-color: #2a2438;
+  background-color: #603e99;
 }
 
 .main-content {
