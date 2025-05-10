@@ -1,17 +1,19 @@
 let currentGame = 0;
 let sliderGames = [];
+let balanceDisplayElement = null; // Зберігаємо посилання на елемент балансу
+let currentUser = JSON.parse(localStorage.getItem("currentUser")); // Глобальна змінна
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (typeof games === "undefined") {
+  if (typeof window.games === "undefined") {
     console.error(
-      "Масив games не визначений. Перевірте, чи завантажується games.js"
+      "Масив window.games не визначений. Перевірте, чи завантажується games.js"
     );
     return;
   }
-  console.log("DOM завантажено, ігор у games:", games.length);
+  console.log("DOM завантажено, ігор у window.games:", window.games.length);
 
   // Логіка слайдера
-  sliderGames = games.filter((game) => game.inSlider === true);
+  sliderGames = window.games.filter((game) => game.inSlider === true);
   console.log("Ігор у слайдері:", sliderGames.length);
 
   const gameBanner = document.querySelector(".game-banner");
@@ -74,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function createIndicators() {
     if (!indicatorsContainer) return;
+    indicatorsContainer.innerHTML = "";
     sliderGames.forEach((_, index) => {
       const dot = document.createElement("span");
       dot.classList.add("indicator");
@@ -113,26 +116,123 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Логіка авторизації
   const authSection = document.getElementById("auth-section");
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const walletSection = document.getElementById("wallet-section");
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
   if (authSection) {
     if (isAuthenticated && currentUser) {
       authSection.innerHTML = `
         <a href="./profile.html" style="display: flex; align-items: center; gap: 10px;">
-            <img src="${
-              currentUser.avatar || "./img/avatars.png"
-            }" style="width: 30px; height: 30px; border-radius: 50%;">
-            <button class="signin font-medium">${currentUser.username}</button>
+          <img src="${
+            currentUser.avatar || "./img/avatars.png"
+          }" style="width: 30px; height: 30px; border-radius: 50%;">
+          <button class="signin font-medium">${currentUser.username}</button>
         </a>
       `;
     } else {
       authSection.innerHTML = `
         <a href="./login.html">
-            <button class="signin font-medium">Sign In</button>
+          <button class="signin font-medium">Sign In</button>
         </a>
       `;
     }
+  }
+
+  // Ініціалізація гаманця, якщо не існує
+  if (isAuthenticated && currentUser) {
+    if (currentUser.wallet === undefined || currentUser.wallet === null) {
+      currentUser.wallet = 0;
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    }
+  }
+
+  // Ініціалізація UI гаманця
+  function initializeWalletUI() {
+    if (!walletSection) {
+      console.warn("walletSection не знайдено в DOM");
+      return;
+    }
+
+    if (isAuthenticated && currentUser) {
+      walletSection.innerHTML = `
+        <div class="wallet-container">
+          <span class="balance-label"></span>
+          <span id="balance-display">${currentUser.wallet} грн</span>
+        </div>
+      `;
+      balanceDisplayElement = document.getElementById("balance-display");
+      console.log(
+        "UI гаманця ініціалізовано, balanceDisplayElement:",
+        balanceDisplayElement
+      );
+    } else {
+      walletSection.innerHTML = "";
+      balanceDisplayElement = null;
+    }
+  }
+
+  // Оновлення UI гаманця динамічно
+  function updateWalletUI() {
+    // Синхронізуємо currentUser з localStorage перед оновленням UI
+    currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    console.log("Оновлення UI гаманця викликано, currentUser:", currentUser);
+
+    if (!walletSection) {
+      console.warn("walletSection не знайдено під час оновлення");
+      return;
+    }
+
+    if (isAuthenticated && currentUser) {
+      // Якщо balanceDisplayElement не ініціалізований, повторно ініціалізуємо UI
+      if (!balanceDisplayElement) {
+        console.log(
+          "balanceDisplayElement не ініціалізований, викликаємо ініціалізацію"
+        );
+        initializeWalletUI();
+      }
+
+      // Перевіряємо, чи елемент існує після ініціалізації
+      if (balanceDisplayElement) {
+        balanceDisplayElement.textContent = `${currentUser.wallet} грн`;
+        console.log("Баланс оновлено в UI:", balanceDisplayElement.textContent);
+      } else {
+        console.error(
+          "Не вдалося знайти balanceDisplayElement після ініціалізації"
+        );
+      }
+    }
+  }
+
+  // Ініціалізація UI гаманця при завантаженні сторінки
+  initializeWalletUI();
+
+  // Функція для показу тимчасового повідомлення
+  function showNotification(message) {
+    let notification = document.getElementById("notification");
+    if (!notification) {
+      notification = document.createElement("div");
+      notification.id = "notification";
+      notification.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: #4CAF50;
+        color: white;
+        padding: 15px;
+        border-radius: 5px;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(notification);
+    }
+
+    notification.textContent = message;
+    notification.style.opacity = "1";
+
+    setTimeout(() => {
+      notification.style.opacity = "0";
+    }, 3000); // Повідомлення зникає через 3 секунди
   }
 
   // Додаємо логіку підсвічування активного пункту меню
@@ -186,7 +286,9 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="game-card-content">
           <h3>${gameData.title}</h3>
           <div class="genres">${gameData.tags.join(", ")}</div>
-          <div class="developer">Developer</div>
+          <div class="developer">${
+            gameData.isUserCreated ? "Створено користувачем" : "Developer"
+          }</div>
           <div class="price">
             ${
               discount
@@ -229,6 +331,69 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(key, JSON.stringify(library));
   };
 
+  // Функція для рендерингу ігор
+  window.renderGames = function () {
+    const newReleasesContainer = document.getElementById("new-releases");
+    const popularGamesContainer = document.getElementById("popular-games");
+
+    if (!newReleasesContainer || !popularGamesContainer) {
+      console.error("Контейнери new-releases або popular-games не знайдено");
+      return;
+    }
+
+    newReleasesContainer.innerHTML = "";
+    popularGamesContainer.innerHTML = "";
+
+    if (!window.games || window.games.length === 0) {
+      console.warn("Масив window.games порожній");
+      newReleasesContainer.innerHTML = "<p>Ігри відсутні.</p>";
+      popularGamesContainer.innerHTML = "<p>Ігри відсутні.</p>";
+      return;
+    }
+
+    window.games.forEach((game) => {
+      const gameId = game.title.toLowerCase().replace(/\s+/g, "-");
+      if (game.isUserCreated && !localStorage.getItem(`gamePage_${gameId}`)) {
+        console.warn(`Сторінка гри ${gameId} не існує, пропускаємо`);
+        return;
+      }
+      const card = window.createGameCard(game, gameId);
+      if (game.section === "new") {
+        newReleasesContainer.appendChild(card);
+      } else if (game.section === "popular") {
+        popularGamesContainer.appendChild(card);
+      }
+    });
+
+    sliderGames = window.games.filter((game) => game.inSlider === true);
+    currentGame = 0;
+    createIndicators();
+    updateGame();
+
+    document
+      .querySelectorAll(".game-card .buttons")
+      .forEach((buttonContainer) => {
+        const gameId = buttonContainer.dataset.game;
+        const installButton = buttonContainer.querySelector(".install");
+        const wishlistButton = buttonContainer.querySelector(".wishlist");
+
+        if (installButton) {
+          installButton.dataset.game = gameId;
+          installButton.removeEventListener("click", handleInstallClick);
+          installButton.addEventListener("click", handleInstallClick);
+        }
+
+        if (wishlistButton) {
+          wishlistButton.dataset.game = gameId;
+          wishlistButton.removeEventListener(
+            "click",
+            handleWishlistButtonClick
+          );
+          wishlistButton.addEventListener("click", handleWishlistButtonClick);
+        }
+      });
+  };
+
   // Функція для оновлення UI списку бажань
   function updateWishlistUI(wishlist) {
     const wishlistCount = document.getElementById("wishlistCount");
@@ -239,6 +404,70 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".game-card .wishlist").forEach((button) => {
       const gameId = button.parentElement.dataset.game;
       button.textContent = wishlist.includes(gameId) ? "♥" : "♡";
+    });
+  }
+
+  // Функція для показу модального вікна з повідомленням про помилку
+  function showErrorModal(message) {
+    let errorModal = document.getElementById("errorModal");
+    if (!errorModal) {
+      errorModal = document.createElement("div");
+      errorModal.id = "errorModal";
+      errorModal.style.cssText = `
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      `;
+      errorModal.innerHTML = `
+        <div style="
+          background: #252525;
+          padding: 20px;
+          border-radius: 8px;
+          text-align: center;
+          color: #fff;
+          max-width: 400px;
+        ">
+          <p id="errorMessage"></p>
+          <button id="closeErrorModal" style="
+            padding: 10px 20px;
+            background: #8247e5;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          ">Закрити</button>
+        </div>
+      `;
+      document.body.appendChild(errorModal);
+    }
+
+    const errorMessage = document.getElementById("errorMessage");
+    const closeErrorModal = document.getElementById("closeErrorModal");
+
+    errorMessage.textContent = message;
+    errorModal.style.display = "flex";
+
+    closeErrorModal.onclick = () => {
+      errorModal.style.display = "none";
+    };
+
+    window.onclick = (event) => {
+      if (event.target === errorModal) {
+        errorModal.style.display = "none";
+      }
+    };
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && errorModal.style.display === "flex") {
+        errorModal.style.display = "none";
+      }
     });
   }
 
@@ -261,7 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const game = games.find(
+    const game = window.games.find(
       (g) => g.title.toLowerCase().replace(/\s+/g, "-") === gameId
     );
     if (!game) {
@@ -293,6 +522,9 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           downloadLinksContainer.appendChild(a);
         });
+      } else {
+        downloadLinksContainer.innerHTML =
+          "<p>Посилання для завантаження відсутні.</p>";
       }
 
       // Додаємо кнопку "Завантажити з сайту"
@@ -301,22 +533,60 @@ document.addEventListener("DOMContentLoaded", () => {
       siteDownloadButton.textContent = "Завантажити з сайту";
       siteDownloadButton.addEventListener("click", (e) => {
         e.preventDefault();
-        let library = window.getUserLibrary();
-        if (!library.includes(gameId)) {
-          library.push(gameId);
-          window.saveUserLibrary(library);
-          console.log("Гра додана до бібліотеки після завантаження:", gameId);
-          alert("Гра завантажена!");
+
+        let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        if (!currentUser) {
+          console.log("Користувач не знайдений у localStorage");
+          return;
         }
-        modal.style.display = "none";
+
+        let userWallet = currentUser.wallet || 0;
+        // Витягуємо ціну гри з description
+        let priceSource = game.description || "0₴";
+        let gamePrice = 0;
+
+        // Обробляємо ціну гри, видаляючи пробіли та символ ₴
+        if (priceSource.toLowerCase() === "безкоштовно") {
+          gamePrice = 0;
+        } else {
+          gamePrice = parseFloat(priceSource.replace(/[\s₴]/g, "")) || 0;
+        }
+
+        console.log(`Ціна гри ${game.title}: ${gamePrice} грн`);
+
+        if (userWallet >= gamePrice) {
+          // Знімаємо ціну з гаманця
+          userWallet -= gamePrice;
+          currentUser.wallet = userWallet;
+          localStorage.setItem("currentUser", JSON.stringify(currentUser));
+          console.log("Баланс оновлено в localStorage:", currentUser.wallet);
+          updateWalletUI(); // Динамічно оновлюємо UI гаманця
+
+          let library = window.getUserLibrary();
+          if (!library.includes(gameId)) {
+            library.push(gameId);
+            window.saveUserLibrary(library);
+            console.log("Гра додана до бібліотеки після покупки:", gameId);
+            showNotification(
+              `Гра придбана за ${gamePrice} грн та додана до бібліотеки!`
+            );
+            renderWishlistOrLibrary(); // Оновлюємо список бажань або бібліотеку
+            window.renderGames(); // Оновлюємо список ігор на головній сторінці
+          } else {
+            showNotification("Гра вже є у вашій бібліотеці!");
+          }
+          modal.style.display = "none";
+        } else {
+          showErrorModal(
+            `Недостатньо коштів. Ціна гри: ${gamePrice} грн. У вас: ${userWallet} грн. Будь ласка, поповніть гаманець у вашому профілі.`
+          );
+        }
       });
       downloadLinksContainer.appendChild(siteDownloadButton);
 
       console.log("Посилання додані у модальне вікно:", game.downloadLinks);
     } else {
-      downloadLinksContainer.innerHTML =
-        "<p>Посилання для завантаження відсутні.</p>";
-      console.warn("Посилання для завантаження не знайдено для гри:", gameId);
+      console.error("Контейнер downloadLinks не знайдено");
     }
 
     if (closeModal) {
@@ -327,6 +597,18 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       console.error("Елемент closeModal не знайдено");
     }
+
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.style.display === "flex") {
+        modal.style.display = "none";
+      }
+    });
   }
 
   // Обробник для кнопки "Додати до списку бажань"
@@ -430,7 +712,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    container.innerHTML = ""; // Очищаємо контейнер перед рендерингом
+    container.innerHTML = "";
 
     let gameIds = [];
     if (isWishlistPage) {
@@ -450,18 +732,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     gameIds.forEach((gameId) => {
-      const game = games.find(
+      const game = window.games.find(
         (g) => g.title.toLowerCase().replace(/\s+/g, "-") === gameId
       );
       if (game) {
+        if (game.isUserCreated && !localStorage.getItem(`gamePage_${gameId}`)) {
+          console.warn(`Сторінка гри ${gameId} не існує, пропускаємо`);
+          return;
+        }
         const card = window.createGameCard(game, gameId);
         container.appendChild(card);
       } else {
-        console.warn(`Гра з ID ${gameId} не знайдена в масиві games`);
+        console.warn(`Гра з ID ${gameId} не знайдена в масиві window.games`);
       }
     });
 
-    // Прив’язка обробників до нових кнопок
     document
       .querySelectorAll("#" + container.id + " .buttons")
       .forEach((buttonContainer) => {
@@ -472,11 +757,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (installButton) {
           installButton.dataset.game = gameId;
+          installButton.removeEventListener("click", handleInstallClick);
           installButton.addEventListener("click", handleInstallClick);
         }
 
         if (wishlistButton) {
           wishlistButton.dataset.game = gameId;
+          wishlistButton.removeEventListener(
+            "click",
+            handleWishlistButtonClick
+          );
           wishlistButton.addEventListener("click", handleWishlistButtonClick);
         }
 
@@ -490,18 +780,17 @@ document.addEventListener("DOMContentLoaded", () => {
               library = library.filter((id) => id !== gameId);
               window.saveUserLibrary(library);
               console.log("Гра видалена з бібліотеки:", gameId);
-              renderWishlistOrLibrary(); // Перерендеринг після видалення
+              renderWishlistOrLibrary();
+              window.renderGames();
             }
           });
         }
       });
   }
 
-  // Ініціалізація списку бажань при завантаженні
   let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
   updateWishlistUI(wishlist);
 
-  // Логіка для головної сторінки
   const isWishlistPage = window.location.pathname.includes("wishlist.html");
   const isLibraryPage = window.location.pathname.includes("library.html");
 
@@ -514,26 +803,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (!games || games.length === 0) {
-      console.error("Масив games порожній або не визначений");
-      return;
-    }
-
-    console.log("Заповнення секцій ігор...");
-    games.forEach((game) => {
-      const gameId = game.title.toLowerCase().replace(/\s+/g, "-");
-      const card = window.createGameCard(game, gameId);
-      if (game.section === "new") {
-        newReleasesContainer.appendChild(card);
-      } else if (game.section === "popular") {
-        popularGamesContainer.appendChild(card);
-      }
-    });
-
-    const gameCards = document.querySelectorAll(".game-card");
-    console.log("Знайдено карточок ігор:", gameCards.length);
-
-    // Налаштування єдиного глобального фільтра
     const allGameContainers = [
       document.getElementById("new-releases"),
       document.getElementById("popular-games"),
@@ -543,26 +812,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const filtersGrid = document.querySelector(".section-filters-grid");
 
     setupGlobalFilters(allGameContainers, toggleButton, filtersGrid);
+
+    window.renderGames();
   } else {
     renderWishlistOrLibrary();
   }
-
-  // Прив’язка обробників до кнопок "Завантажити" і "Додати до списку бажань"
-  document
-    .querySelectorAll(".game-card .buttons")
-    .forEach((buttonContainer) => {
-      const gameId = buttonContainer.dataset.game;
-      const installButton = buttonContainer.querySelector(".install");
-      const wishlistButton = buttonContainer.querySelector(".wishlist");
-
-      if (installButton) {
-        installButton.dataset.game = gameId;
-        installButton.addEventListener("click", handleInstallClick);
-      }
-
-      if (wishlistButton) {
-        wishlistButton.dataset.game = gameId;
-        wishlistButton.addEventListener("click", handleWishlistButtonClick);
-      }
-    });
 });

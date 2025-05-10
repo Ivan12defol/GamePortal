@@ -26,14 +26,12 @@
         align-items: center;
         z-index: 1000;
       }
-
       .logo {
         display: flex;
         align-items: center;
         font-size: 20px;
         font-weight: bold;
       }
-
       .icon {
         background-color: #8247e5;
         color: white;
@@ -198,6 +196,7 @@
         event.preventDefault();
         if (checkForm()) {
           const users = JSON.parse(localStorage.getItem("users")) || [];
+          console.log("Поточний масив users:", users); // Діагностика
           const userExists = users.some(
             (user) =>
               user.email === emailInput.value ||
@@ -213,9 +212,12 @@
             username: usernameInput.value,
             email: emailInput.value,
             password: passwordInput.value,
+            avatar: "./img/avatars.png", // Дефолтна аватарка
           };
 
           users.push(newUser);
+          localStorage.setItem("users", JSON.stringify(users));
+          console.log("Оновлений масив users:", users); // Діагностика
           localStorage.setItem("isAuthenticated", "true");
           localStorage.setItem("currentUser", JSON.stringify(newUser));
           alert("Реєстрація успішна!");

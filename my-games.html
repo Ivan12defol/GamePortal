@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Бібліотека</title>
+    <title>Мої ігри</title>
     <link rel="stylesheet" href="./library.css" />
     <script src="./games.js" defer></script>
     <script src="./js.js" defer></script>
     <script src="./games/gamePage.js" defer></script>
 
-    <script src="./library.js" defer></script>
+    <script src="./my-games.js" defer></script>
   </head>
   <body class="library-page">
     <header class="navbar border-b w-full font-medium">
@@ -36,15 +36,15 @@
 
     <div class="library-container">
       <aside class="sidebar">
-        <h3>Бібліотека</h3>
+        <h3>Мої ігри</h3>
         <ul class="game-list">
-          <li class="game-item active">Всі ігри</li>
+          <li class="game-item active">Створені ігри</li>
         </ul>
       </aside>
       <main class="main-content">
-        <div class="game-grid" id="library-games"></div>
-        <div id="library-empty" style="display: none">
-          Ваша бібліотека порожня.
+        <div class="game-grid" id="my-games-grid"></div>
+        <div id="my-games-empty" style="display: none">
+          Ви ще не створили жодної гри.
         </div>
       </main>
     </div>
@@ -57,14 +57,22 @@
         <p>Вартість створення гри: 100 грн</p>
         <form id="createGameForm">
           <div class="form-group">
-            <label for="gameImage">Обкладинка гри</label>
-            <input type="file" id="gameImage" accept="image/*" required />
+            <label for="gameIcon">Іконка гри</label>
+            <input type="file" id="gameIcon" accept="image/*" required />
             <img
-              id="imagePreview"
+              id="iconPreview"
               src="#"
-              alt="Попередній перегляд"
+              alt="Попередній перегляд іконки"
               style="display: none; max-width: 100%; margin-top: 10px"
             />
+          </div>
+          <div class="form-group">
+            <label for="gameScreenshots">Скріншоти гри</label>
+            <input type="file" id="gameScreenshots" accept="image/*" multiple />
+            <div
+              id="screenshotsPreview"
+              style="display: flex; flex-wrap: wrap"
+            ></div>
           </div>
           <div class="form-group">
             <label for="gameTitle">Назва гри</label>
@@ -85,9 +93,7 @@
           </div>
           <div class="form-group">
             <label>Теги</label>
-            <select id="gameTags" multiple required>
-              <!-- Теги будуть додані через JavaScript -->
-            </select>
+            <select id="gameTags" multiple required></select>
           </div>
           <button type="submit" class="signin font-medium">Створити гру</button>
         </form>
@@ -99,13 +105,11 @@
       <div class="modal-content">
         <span id="closeModal" class="close">×</span>
         <h2>Помилка</h2>
-        <p>На цьому сайті гра недоступна.</p>
-        <p>Але ви можете зіграти за посиланням нижче:</p>
-        <div id="downloadLinks" class="download-links"></div>
+        <p>Неможливо відкрити сторінку з грою.</p>
+        <button id="okButton" class="signin">ОК</button>
       </div>
     </div>
 
-    <!-- Модальне вікно для помилки балансу -->
     <div id="insufficientFundsModal" class="modal">
       <div class="modal-content">
         <span id="closeInsufficientFundsModal" class="close">×</span>

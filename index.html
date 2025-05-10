@@ -5,16 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GamePortal</title>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <script src="./games.js" defer></script>
     <script src="./js.js" defer></script>
+
     <script src="./search.js" defer></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
   </head>
   <body>
-    <header class="navbar border-b w-full font-medium">
+    <header
+      class="navbar border-b w-full font-medium"
+      data-aos="fade-down"
+      data-aos-duration="800"
+    >
       <div class="logo">
         <a href="./index.html"><div class="icon">GP</div></a>
         <span>GamePortal</span>
@@ -39,12 +46,15 @@
             class="search font-medium"
           />
         </div>
-        <div id="auth-section"></div>
+        <div class="actions">
+          <div id="auth-section"></div>
+          <div id="wallet-section"></div>
+        </div>
       </div>
     </header>
-    <main class="container py-6">
+    <main class="container py-6" id="main-content">
       <div class="container">
-        <div class="game-slider">
+        <div class="game-slider" data-aos="fade-up" data-aos-duration="1000">
           <div class="game-content">
             <div class="game-banner">
               <div class="overlay"></div>
@@ -63,11 +73,21 @@
           <button class="next" aria-label="Next game">❯</button>
           <div class="indicators"></div>
         </div>
-        <section class="discover">
+        <section
+          class="discover"
+          data-aos="fade-up"
+          data-aos-delay="200"
+          data-aos-duration="800"
+        >
           <h2>Обирайте гру на свій смак</h2>
         </section>
 
-        <div class="wishlist-header">
+        <div
+          class="wishlist-header"
+          data-aos="fade-left"
+          data-aos-delay="200"
+          data-aos-duration="800"
+        >
           <a href="./wishlist.html">
             <button id="wishlistButton" class="wishlist-btn">
               Список бажань (<span id="wishlistCount">0</span>)
@@ -78,23 +98,130 @@
         <br />
         <br />
 
-        <div class="filter-container wishlist-header">
+        <div
+          class="filter-container wishlist-header"
+          data-aos="fade-right"
+          data-aos-delay="200"
+          data-aos-duration="800"
+        >
           <button class="toggle-section-filters">Фільтр</button>
           <div class="section-filters-grid hidden">
             <button>All Games</button>
-            <button>Action</button>
-            <button>Adventure</button>
-            <button>RPG</button>
-            <button>Strategy</button>
-            <button>Simulation</button>
-            <button>Racing</button>
-            <button>Shooter</button>
+            <button>JRPG</button>
+            <button>LEGO</button>
             <button>MOBA</button>
-            <button>Онлайн</button>
-            <button>Indie</button>
-            <button>Horror</button>
             <button>MMORPG</button>
-            <button>Puzzle</button>
+            <button>PvE</button>
+            <button>PvP</button>
+            <button>RPG</button>
+            <button>RTS</button>
+            <button>VR</button>
+            <button>Warhammer 40K</button>
+            <button>Аніме</button>
+            <button>Аркада</button>
+            <button>Атмосферна</button>
+            <button>Автоматизація</button>
+            <button>Автосимулятор</button>
+            <button>Безкоштовно</button>
+            <button>Баскетбол</button>
+            <button>Бій</button>
+            <button>Будівництво</button>
+            <button>Вампіри</button>
+            <button>Вечіркова гра</button>
+            <button>Виживання</button>
+            <button>Виживання у відкритому світі</button>
+            <button>Війна</button>
+            <button>Військова</button>
+            <button>Від першої особи</button>
+            <button>Від третьої особи</button>
+            <button>Водіння</button>
+            <button>Глобальна стратегія</button>
+            <button>Головоломка</button>
+            <button>Гольф</button>
+            <button>Гонки</button>
+            <button>Групова RPG</button>
+            <button>Детектив</button>
+            <button>Дизайн та ілюстрація</button>
+            <button>Динамічна</button>
+            <button>Дослідження</button>
+            <button>Друга світова війна</button>
+            <button>Економіка</button>
+            <button>Екшен</button>
+            <button>Жахи</button>
+            <button>Злочин</button>
+            <button>Зомбі</button>
+            <button>Історична</button>
+            <button>Казуальна</button>
+            <button>Карткова гра</button>
+            <button>Картковий бій</button>
+            <button>Керування ресурсами</button>
+            <button>Кіберспорт</button>
+            <button>Класика</button>
+            <button>Клікер</button>
+            <button>Кооператив</button>
+            <button>Командна</button>
+            <button>Комедія</button>
+            <button>Космос</button>
+            <button>Крафт</button>
+            <button>Кульовий пекло</button>
+            <button>Кілька кінцівок</button>
+            <button>Лавкрафтівська</button>
+            <button>Локальний кооператив</button>
+            <button>Лут</button>
+            <button>Меми</button>
+            <button>Метроїдванія</button>
+            <button>Модифікована</button>
+            <button>Морський бій</button>
+            <button>Мультиплеєр</button>
+            <button>Настільна гра</button>
+            <button>Наукова фантастика</button>
+            <button>Налаштування персонажа</button>
+            <button>Одиночна гра</button>
+            <button>Онлайн кооператив</button>
+            <button>Паркур</button>
+            <button>Пісочниця</button>
+            <button>Платформер</button>
+            <button>Покрокова</button>
+            <button>Полювання</button>
+            <button>Політ</button>
+            <button>Пригоди</button>
+            <button>Природа</button>
+            <button>Процедурна генерація</button>
+            <button>Ранній доступ</button>
+            <button>Реалістична</button>
+            <button>Рогалик</button>
+            <button>Рогалик-колодобудування</button>
+            <button>Рогаліт</button>
+            <button>Розділений екран</button>
+            <button>Розслаблююча</button>
+            <button>Розслідування</button>
+            <button>Романтика</button>
+            <button>Роботи</button>
+            <button>Середньовічна</button>
+            <button>Симулятор життя</button>
+            <button>Симулятор побачень</button>
+            <button>Симулятор хобі</button>
+            <button>Симулятор ходьби</button>
+            <button>Симуляція</button>
+            <button>Складна</button>
+            <button>Смішна</button>
+            <button>Спорт</button>
+            <button>Стелс</button>
+            <button>Стратегія</button>
+            <button>Супергерої</button>
+            <button>Сучасна</button>
+            <button>Тактична</button>
+            <button>Тактична RPG</button>
+            <button>Танки</button>
+            <button>Таємниця</button>
+            <button>Торгівельна карткова гра</button>
+            <button>Транспорт</button>
+            <button>Фехтування</button>
+            <button>Фермерський симулятор</button>
+            <button>Фізика</button>
+            <button>Футбол</button>
+            <button>Чудовий саундтрек</button>
+            <button>Шутер</button>
           </div>
         </div>
 
@@ -116,15 +243,33 @@
     </main>
     <div id="downloadModal" class="modal">
       <div class="modal-content">
-        <span id="closeModal" class="close">&times;</span>
+        <span id="closeModal" class="close">×</span>
         <h2>Завантаження гри</h2>
         <p id="modalMessage">
           На жаль, завантаження гри на цьому сайті наразі недоступне. Однак ви
-          можете завантажити гру з офіційного сайту, щоб забезпечити коректну
-          роботу всіх функцій.
+          можете завантажити гру з цого сайту, щоб забезпечити коректну роботу
+          всіх функцій.
         </p>
         <div id="downloadLinks" class="download-links"></div>
       </div>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        AOS.init({
+          duration: 1000,
+          once: true,
+          mirror: false,
+          offset: 0,
+          anchorPlacement: "top-bottom",
+        });
+
+        const navbar = document.querySelector(".navbar");
+        const mainContent = document.getElementById("main-content");
+        if (navbar && mainContent) {
+          const navbarHeight = navbar.offsetHeight;
+          mainContent.style.paddingTop = `${navbarHeight + 30}px`;
+        }
+      });
+    </script>
   </body>
 </html>

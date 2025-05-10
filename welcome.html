@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to GamePortal</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Orbitron", sans-serif;
+        background-color: #121212;
+        color: #fff;
+        overflow-x: hidden;
+      }
+
+      .hero-section {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url("https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1920&q=80")
+          center/cover no-repeat;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      .hero-content {
+        text-align: center;
+        z-index: 1;
+      }
+
+      .hero-content h1 {
+        font-size: 3.5rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      }
+
+      .hero-content p {
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .cta-buttons .btn {
+        padding: 0.8rem 2rem;
+        margin: 0 0.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .btn-primary {
+        background-color: #8247e5;
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background-color: #703dd1;
+        transform: scale(1.05);
+      }
+
+      .features {
+        padding: 3rem 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        background-color: #1c1c1c;
+      }
+
+      .feature-card {
+        background-color: #252525;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 0.8rem;
+        color: #8247e5;
+      }
+
+      .feature-card p {
+        font-size: 1rem;
+        font-weight: 400;
+        opacity: 0.8;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+      }
+
+      .developer-info {
+        padding: 2rem 1rem;
+        text-align: center;
+        background-color: #252525;
+        font-size: 0.9rem;
+        color: #ccc;
+      }
+
+      .developer-info a {
+        color: #8247e5;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .developer-info a:hover {
+        color: #703dd1;
+      }
+    </style>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </head>
+  <body>
+    <div class="hero-section">
+      <div class="overlay"></div>
+      <div class="hero-content">
+        <h1 data-aos="fade-up" data-aos-duration="1000">
+          Ласкаво просимо до GamePortal
+        </h1>
+        <p data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+          Відкривайте нові світи, грайте з друзями та створюйте власні пригоди!
+        </p>
+        <div
+          class="cta-buttons"
+          data-aos="fade-up"
+          data-aos-delay="400"
+          data-aos-duration="1000"
+        >
+          <a href="./index.html" class="btn btn-primary">Перейти до магазину</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="features">
+      <div class="feature-card" data-aos="zoom-in" data-aos-duration="800">
+        <h3>Величезна бібліотека ігор</h3>
+        <p>Більше 100+ ігор для всіх жанрів та платформ.</p>
+      </div>
+      <div
+        class="feature-card"
+        data-aos="zoom-in"
+        data-aos-delay="200"
+        data-aos-duration="800"
+      >
+        <h3>Спільнота гравців</h3>
+        <p>Приєднуйтесь до мільйонів гравців по всьому світу.</p>
+      </div>
+      <div
+        class="feature-card"
+        data-aos="zoom-in"
+        data-aos-delay="400"
+        data-aos-duration="800"
+      >
+        <h3>Створюйте власні ігри</h3>
+        <p>Розкрийте свій творчий потенціал з нашими інструментами.</p>
+      </div>
+    </section>
+
+    <div class="developer-info" data-aos="fade-up" data-aos-duration="800">
+      Розроблено <a href="#">MiniAgusha</a> з любов’ю до ігор. © 2025
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        AOS.init({
+          duration: 1000,
+          once: true,
+          mirror: false,
+          offset: 50,
+          anchorPlacement: "top-bottom",
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -602,11 +602,16 @@ a {
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
   display: none;
   z-index: 998;
-  width: 200px;
+  width: 600px;
+  max-height: 400px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
 }
 
 .section-filters-grid.active {
-  display: block;
+  display: grid;
 }
 
 .section-filters-grid button {
@@ -618,14 +623,38 @@ a {
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 100%;
-  text-align: left;
-  margin-bottom: 5px;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 .section-filters-grid button:hover {
   background: linear-gradient(135deg, #6b38c2, #9358ff);
   transform: scale(1.03);
+}
+
+@media (max-width: 600px) {
+  .section-filters-grid {
+    width: 450px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.section-filters-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.section-filters-grid::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border-radius: 8px;
+}
+
+.section-filters-grid::-webkit-scrollbar-thumb {
+  background: #8247e5;
+  border-radius: 8px;
+}
+
+.section-filters-grid::-webkit-scrollbar-thumb:hover {
+  background: #6b38c2;
 }
 
 .hidden {

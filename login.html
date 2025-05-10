@@ -26,14 +26,12 @@
         align-items: center;
         z-index: 1000;
       }
-
       .logo {
         display: flex;
         align-items: center;
         font-size: 20px;
         font-weight: bold;
       }
-
       .icon {
         background-color: #8247e5;
         color: white;
@@ -146,35 +144,35 @@
       const passwordInput = document.getElementById("password");
       const emailError = document.getElementById("email-error");
       const passwordError = document.getElementById("password-error");
-    
+
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         emailError.classList.remove("visible");
         passwordError.classList.remove("visible");
-    
+
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(emailInput.value)) {
           emailError.classList.add("visible");
           return;
         }
-    
+
         const users = JSON.parse(localStorage.getItem("users")) || [];
+        console.log("Масив users при вході:", users); // Діагностика
         const user = users.find(
           (user) =>
             user.email === emailInput.value &&
             user.password === passwordInput.value
         );
-    
+
         if (!user) {
           passwordError.classList.add("visible");
           return;
         }
-    
-        // Устанавливаем флаг авторизации
+
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("currentUser", JSON.stringify(user));
         alert("Вхід успішний!");
-        window.location.href = "index.html"; // Перенаправляем на index.html вместо profile.html
+        window.location.href = "index.html";
       });
     </script>
   </body>
