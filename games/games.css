@@ -108,6 +108,10 @@ a {
 .border-b {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
+.font-medium {
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+}
 
 .container {
   width: 90%;

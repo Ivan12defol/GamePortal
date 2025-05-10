@@ -8,60 +8,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   console.log("DOM завантажено, ігор у window.games:", window.games.length);
 
-  // Логіка для слайдера
-  const slides = document.querySelectorAll(".slide");
-  const thumbnails = document.querySelectorAll(".thumbnail");
-  const prevBtn = document.querySelector(".prev");
-  const nextBtn = document.querySelector(".next");
-  let currentSlide = 0;
-
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle("active", i === index);
-      thumbnails[i].classList.toggle("active", i === index);
-    });
-    currentSlide = index;
+  // Функція виходу (залишаємо на випадок використання в інших місцях)
+  function logout() {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("currentUser");
+    window.location.href = "../login.html";
   }
-
-  thumbnails.forEach((thumbnail, index) => {
-    thumbnail.addEventListener("click", () => {
-      showSlide(index);
-    });
-  });
-
-  prevBtn.addEventListener("click", () => {
-    let newSlide = currentSlide - 1;
-    if (newSlide < 0) newSlide = slides.length - 1;
-    showSlide(newSlide);
-  });
-
-  nextBtn.addEventListener("click", () => {
-    let newSlide = currentSlide + 1;
-    if (newSlide >= slides.length) newSlide = 0;
-    showSlide(newSlide);
-  });
-
-  setInterval(() => {
-    let newSlide = currentSlide + 1;
-    if (newSlide >= slides.length) newSlide = 0;
-    showSlide(newSlide);
-  }, 5000);
 
   // Логіка авторизації
   const authSection = document.getElementById("auth-section");
-  const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {
-    username: document.body.getAttribute("data-user") || "miniagusha2",
-  };
+  const walletSection = document.getElementById("wallet-section");
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
   if (authSection) {
-    if (currentUser && localStorage.getItem("isAuthenticated") === "true") {
+    if (isAuthenticated && currentUser) {
+      let avatarSrc = currentUser.avatar || "../img/avatars.png";
+      if (
+        avatarSrc &&
+        !avatarSrc.startsWith("http") &&
+        !avatarSrc.startsWith("/")
+      ) {
+        avatarSrc = `../${avatarSrc}`;
+      }
+      console.log("Avatar Src:", avatarSrc);
       authSection.innerHTML = `
-        <a href="../profile.html" style="display: flex; align-items: center; gap: 10px;">
-          <img src="${
-            currentUser.avatar || "../img/avatars.png"
-          }" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
-          <button class="signin font-medium">${currentUser.username}</button>
-        </a>
+        <div>
+          <a href="../profile.html" style="display: flex; align-items: center; gap: 10px;">
+            <img src="${avatarSrc}" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
+            <button class="signin font-medium">${currentUser.username}</button>
+          </a>
+        </div>
       `;
     } else {
       authSection.innerHTML = `
@@ -69,6 +46,25 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="signin font-medium">Sign In</button>
         </a>
       `;
+    }
+  }
+
+  // Логіка гаманця
+  if (walletSection) {
+    if (isAuthenticated && currentUser) {
+      // Ініціалізація гаманця, якщо не існує
+      if (!currentUser.wallet) {
+        currentUser.wallet = 0;
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      }
+      walletSection.innerHTML = `
+        <div class="wallet-container">
+          <span class="balance-label"></span>
+          <span id="balance-display">${currentUser.wallet} грн</span>
+        </div>
+      `;
+    } else {
+      walletSection.innerHTML = "";
     }
   }
 
@@ -98,18 +94,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Функція для отримання бібліотеки користувача
   function getUserLibrary() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {
-      username: document.body.getAttribute("data-user") || "miniagusha2",
-    };
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser) {
+      console.warn("Користувач не авторизований");
+      return [];
+    }
     const key = `library_${currentUser.username}`;
     return JSON.parse(localStorage.getItem(key)) || [];
   }
 
   // Функція для збереження бібліотеки користувача
   function saveUserLibrary(library) {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {
-      username: document.body.getAttribute("data-user") || "miniagusha2",
-    };
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser) {
+      console.warn("Користувач не авторизований, бібліотека не збережена");
+      return;
+    }
     const key = `library_${currentUser.username}`;
     localStorage.setItem(key, JSON.stringify(library));
     console.log("Бібліотека збережено:", library);
