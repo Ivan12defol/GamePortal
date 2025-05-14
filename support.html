@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Підтримка - GamePortal</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./js.js" defer></script>
+    <script src="./games.js" defer></script>
+  </head>
+  <body>
+    <header class="navbar border-b w-full font-medium">
+      <div class="logo">
+        <a href="./index.html"><div class="icon">GP</div></a>
+        <span>GamePortal</span>
+      </div>
+      <nav class="menu py-2">
+        <a href="./index.html" class="font-medium">Магазин</a>
+        <a href="./library.html" class="font-medium">Бібліотека</a>
+        <a href="#" class="font-medium">Друзі</a>
+        <a href="#" class="font-medium active">Підтримка</a>
+      </nav>
+      <div class="actions">
+        <div id="auth-section">
+          <a href="./login.html">
+            <button class="signin font-medium">Sign In</button>
+          </a>
+        </div>
+        <div id="wallet-section"></div>
+      </div>
+    </header>
+
+    <main class="container py-6" id="main-content">
+      <section class="support-section">
+        <h2>Підтримка</h2>
+        <p>
+          Маєте запитання чи пропозиції? Заповніть форму або перегляньте FAQ.
+        </p>
+        <form
+          id="supportForm"
+          class="support-form"
+          onsubmit="submitForm(event)"
+        >
+          <div class="form-group">
+            <label for="name">Ім’я</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Ваше ім’я"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Електронна пошта</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="example@email.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="subject">Тема</label>
+            <select id="subject" name="subject" required>
+              <option value="" disabled selected>Оберіть тему</option>
+              <option value="Проблема з покупкою">Проблема з покупкою</option>
+              <option value="Пропозиція">Пропозиція</option>
+              <option value="Питання про гру">Питання про гру</option>
+              <option value="Інше">Інше</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Повідомлення</label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Ваше повідомлення..."
+              required
+              oninput="updatePreview()"
+            ></textarea>
+          </div>
+          <div class="form-group preview-group">
+            <label>Попередній перегляд</label>
+            <div id="message-preview" class="preview-box">
+              Тут буде ваш текст...
+            </div>
+          </div>
+          <div class="form-buttons">
+            <button type="submit">Надіслати</button>
+            <button type="button" onclick="clearForm()">Очистити форму</button>
+          </div>
+        </form>
+        <div class="form-actions">
+          <button onclick="showSubmissions('newest')">Новіші</button>
+          <button onclick="showSubmissions('oldest')">Старіші</button>
+          <button onclick="clearSubmissions()">Очистити всі</button>
+        </div>
+        <div id="form-response" class="response-container"></div>
+      </section>
+
+      <section class="faq-section">
+        <h2>Часто задавані питання</h2>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            Як поповнити гаманець?
+          </button>
+          <div class="faq-answer">
+            <p>
+              Потрібно зареєструватися, увійти в профіль і натиснути на кнопку
+              "Поповнити".
+            </p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            Чому гра не запускається?
+          </button>
+          <div class="faq-answer">
+            <p>
+              Гра не запускається, тому що це лише демонстраційна версія на
+              сайті.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            Як додати друзів?
+          </button>
+          <div class="faq-answer">
+            <p>
+              Перейдіть у розділ "Друзі", введіть ID друга або ім’я користувача
+              та надішліть запит. Друг має підтвердити ваш запит.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const navbar = document.querySelector(".navbar");
+        const mainContent = document.getElementById("main-content");
+        if (navbar && mainContent) {
+          mainContent.style.paddingTop = `${navbar.offsetHeight + 20}px`;
+        }
+      });
+
+      function updatePreview() {
+        const message = document.getElementById("message").value.trim();
+        document.getElementById("message-preview").innerHTML = message
+          ? message.replace(/\n/g, "<br>")
+          : "Тут буде ваш текст...";
+      }
+
+      function submitForm(event) {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const subject = form.subject.value;
+        const message = form.message.value.trim();
+        const responseElement = document.getElementById("form-response");
+
+        if (!name || !email || !subject || !message) {
+          responseElement.textContent = "Будь ласка, заповніть усі поля.";
+          responseElement.style.display = "block";
+          return;
+        }
+
+        const formData = {
+          name,
+          email,
+          subject,
+          message,
+          timestamp: new Date("2025-05-13T12:16:00+03:00").toLocaleString(
+            "uk-UA",
+            { timeZone: "Europe/Kyiv" }
+          ),
+          rawTimestamp: new Date("2025-05-13T12:16:00+03:00").getTime(),
+        };
+        let submissions = JSON.parse(
+          localStorage.getItem("supportSubmissions") || "[]"
+        );
+        submissions.push(formData);
+        localStorage.setItem("supportSubmissions", JSON.stringify(submissions));
+
+        responseElement.textContent = `Дякуємо, ${name}. Ваше повідомлення надіслано.`;
+        responseElement.style.display = "block";
+
+        form.reset();
+        document.getElementById("message-preview").innerHTML =
+          "Тут буде ваш текст...";
+      }
+
+      function clearForm() {
+        const form = document.getElementById("supportForm");
+        form.reset();
+        document.getElementById("message-preview").innerHTML =
+          "Тут буде ваш текст...";
+        const responseElement = document.getElementById("form-response");
+        responseElement.textContent = "Форма очищена.";
+        responseElement.style.display = "block";
+      }
+
+      function showSubmissions(sortOrder) {
+        let submissions = JSON.parse(
+          localStorage.getItem("supportSubmissions") || "[]"
+        );
+        if (submissions.length === 0) {
+          const responseElement = document.getElementById("form-response");
+          responseElement.textContent = "Немає повідомлень.";
+          responseElement.style.display = "block";
+          return;
+        }
+
+        submissions.sort((a, b) => {
+          return sortOrder === "newest"
+            ? b.rawTimestamp - a.rawTimestamp
+            : a.rawTimestamp - b.rawTimestamp;
+        });
+
+        const responseElement = document.getElementById("form-response");
+        responseElement.innerHTML = submissions
+          .map(
+            (s, index) => `
+          <div class="submission-card">
+            <div class="submission-content">
+              <p><strong>Час:</strong> ${s.timestamp}</p>
+              <p><strong>Тема:</strong> ${s.subject}</p>
+              <p><strong>Від:</strong> ${s.name} (${s.email})</p>
+              <p><strong>Повідомлення:</strong> ${s.message}</p>
+              <div class="submission-actions">
+                <button onclick="editSubmission(${index})">Редагувати</button>
+                <button onclick="deleteSubmission(${index})">Видалити</button>
+              </div>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+        responseElement.style.display = "block";
+      }
+
+      function editSubmission(index) {
+        let submissions = JSON.parse(
+          localStorage.getItem("supportSubmissions") || "[]"
+        );
+        const submission = submissions[index];
+        const form = document.getElementById("supportForm");
+        form.name.value = submission.name;
+        form.email.value = submission.email;
+        form.subject.value = submission.subject;
+        form.message.value = submission.message;
+        document.getElementById("message-preview").innerHTML =
+          submission.message.replace(/\n/g, "<br>");
+
+        submissions.splice(index, 1);
+        localStorage.setItem("supportSubmissions", JSON.stringify(submissions));
+        const responseElement = document.getElementById("form-response");
+        responseElement.textContent =
+          "Редагуйте повідомлення та надішліть знову.";
+        responseElement.style.display = "block";
+      }
+
+      function deleteSubmission(index) {
+        let submissions = JSON.parse(
+          localStorage.getItem("supportSubmissions") || "[]"
+        );
+        submissions.splice(index, 1);
+        localStorage.setItem("supportSubmissions", JSON.stringify(submissions));
+        showSubmissions("newest");
+      }
+
+      function clearSubmissions() {
+        localStorage.removeItem("supportSubmissions");
+        const responseElement = document.getElementById("form-response");
+        responseElement.textContent = "Усі повідомлення очищено.";
+        responseElement.style.display = "block";
+      }
+
+      function toggleFAQ(button) {
+        const answer = button.nextElementSibling;
+        if (answer.style.display === "block") {
+          answer.style.display = "none";
+        } else {
+          answer.style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>

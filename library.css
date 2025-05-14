@@ -1,3 +1,4 @@
+/* Базові стилі (залишаємо без змін) */
 * {
   margin: 0;
   padding: 0;
@@ -298,9 +299,42 @@ a {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  background-color: #262131;
+  background-color: #2a2a2a;
   color: white;
   font-size: 14px;
+}
+
+.form-group input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="file"]:focus {
+  outline: none;
+  border-color: #8247e5;
+  box-shadow: 0 0 5px rgba(130, 71, 229, 0.5);
+}
+
+.form-group input[type="file"]::file-selector-button {
+  background-color: #8247e5;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  transition: background-color 0.3s ease;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+  background-color: #6a37c3;
 }
 
 .form-group textarea {
@@ -309,10 +343,6 @@ a {
 
 .form-group select {
   height: 100px;
-}
-
-.form-group input[type="file"] {
-  padding: 5px;
 }
 
 .close {

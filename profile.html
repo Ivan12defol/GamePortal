@@ -36,27 +36,11 @@
             Вийти
           </button>
         </div>
-        <div class="activity-section">
-          <h3>Недавня активність</h3>
-          <div class="activity">
-            <img
-              src="https://via.placeholder.com/150x70?text=Counter+Strike+2"
-              alt="Game"
-            />
-            <div class="activity-info">
-              <h4>Counter-Strike 2</h4>
-              <p>1139 ч. весело, останні 2 тижні</p>
-            </div>
-          </div>
-          <div class="activity">
-            <img
-              src="https://via.placeholder.com/150x70?text=Achievement"
-              alt="Achievement"
-            />
-            <div class="activity-info">
-              <h4>Досягнення 1 з 1</h4>
-              <p>Скриншот 1 Обзор 1</p>
-            </div>
+        <div class="smiley-game">
+          <h3>Поклікай по смайликам! 😄</h3>
+          <div class="game-area" id="gameArea">
+            <div class="score">Очки: <span id="score">0</span></div>
+            <div class="high-score">Рекорд: <span id="highScore">0</span></div>
           </div>
         </div>
       </div>
@@ -102,11 +86,7 @@
               500 грн
             </button>
           </div>
-          <div id="topUpLoading" style="display: none">
-            <span>Зачекайте...</span>
-            <span class="spinner"></span>
-          </div>
-          <div style="display: flex; gap: 10px; margin-top: 15px">
+          <div style="margin-top: 15px">
             <button type="button" id="cancelTopUp" class="signin font-medium">
               Скасувати
             </button>
@@ -114,6 +94,113 @@
           </div>
         </form>
       </div>
+    </div>
+
+    <div
+      id="postTopUpLoading"
+      class="post-top-up-loading"
+      style="display: none"
+    >
+      <svg id="loadingIndicator" width="60" height="60" viewBox="0 0 60 60">
+        <g id="loadingContainer" fill="#8247e5">
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(0 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(30 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(60 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(90 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(120 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(150 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(180 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(210 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(240 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(270 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(300 30 30) translate(0 -13)"
+          />
+          <rect
+            x="27"
+            y="2"
+            width="6"
+            height="15"
+            rx="3"
+            transform="rotate(330 30 30) translate(0 -13)"
+          />
+        </g>
+      </svg>
     </div>
   </body>
 </html>

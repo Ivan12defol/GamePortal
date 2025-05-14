@@ -23,21 +23,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const descriptionCounter = document.getElementById("description-counter");
   const maxDescriptionLength = descriptionInput.getAttribute("maxlength");
 
+  // Ініціалізація значень
   usernameInput.value = currentUser.username || "";
   descriptionInput.value = currentUser.description || "";
   emailInput.value = currentUser.email || "";
   phoneInput.value = currentUser.phone || "";
   passwordInput.value = "";
-
-  const avatarPreview = document.getElementById("avatar-preview");
   avatarInput.value =
     currentUser.avatar || "https://via.placeholder.com/100?text=Avatar";
+  const avatarPreview = document.getElementById("avatar-preview");
   avatarPreview.src = avatarInput.value;
 
   descriptionCounter.textContent = `${
     maxDescriptionLength - descriptionInput.value.length
   } символів залишилось`;
 
+  // Оновлення лічильника символів
   descriptionInput.addEventListener("input", () => {
     const remaining = maxDescriptionLength - descriptionInput.value.length;
     descriptionCounter.textContent = `${remaining} символів залишилось`;
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Перемикання вкладок
   const tabLinks = document.querySelectorAll(".tab-link");
   const tabContents = document.querySelectorAll(".tab-content");
 
@@ -64,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Обробка вибору аватара
   const avatarOptions = document.querySelectorAll(".avatar-option");
   const avatarUpload = document.getElementById("avatar-upload");
   const avatarDropdownBtn = document.querySelector(".avatar-dropdown-btn");
@@ -96,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Обробка редагування фото
   const cropperModal = document.getElementById("cropper-modal");
   const cropperImage = document.getElementById("cropper-image");
   const cropperCanvas = document.getElementById("cropper-canvas");
@@ -130,7 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
     cropperImage.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
   }
 
-  // Управління редактором фото
   cropperZoomIn.addEventListener("click", () => {
     scale += 0.1;
     updateImageTransform();
@@ -182,19 +185,22 @@ document.addEventListener("DOMContentLoaded", function () {
     avatarUpload.value = "";
   });
 
-  // Функція для оновлення імені та аватара на всіх сторінках
+  // Функція оновлення користувача на всіх сторінках
   function updateUserAcrossPages(updatedUser) {
     const authSections = document.querySelectorAll("#auth-section");
     authSections.forEach((section) => {
       section.innerHTML = `
-              <a href="./profile.html" style="display: flex; align-items: center; gap: 10px;">
-                  <img src="${updatedUser.avatar}" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
-                  <button class="signin font-medium">${updatedUser.username}</button>
-              </a>
-          `;
+        <a href="./profile.html" style="display: flex; align-items: center; gap: 10px;">
+          <img src="${
+            updatedUser.avatar || "./img/avatars.png"
+          }" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;">
+          <button class="signin font-medium">${updatedUser.username}</button>
+        </a>
+      `;
     });
   }
 
+  // Перевірка форм
   function checkProfileForm() {
     let isValid = true;
     usernameError.classList.remove("visible");
@@ -220,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
     passwordError.classList.remove("visible");
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(emailInput.value)) {
+    if (!emailPattern.test(emailInput.value.trim())) {
       emailError.classList.add("visible");
       isValid = false;
     }
@@ -240,94 +246,126 @@ document.addEventListener("DOMContentLoaded", function () {
     return isValid;
   }
 
-  profileForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (checkProfileForm()) {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const userExists = users.some(
-        (user) =>
-          (user.email === currentUser.email &&
-            user.username !== currentUser.username &&
-            user.username === usernameInput.value) ||
-          (user.email !== currentUser.email && user.email === emailInput.value)
-      );
+  // Обробка подання форм
+  if (profileForm) {
+    profileForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (checkProfileForm()) {
+        let users = JSON.parse(localStorage.getItem("users")) || {};
+        users = Object.values(users); // Перетворюємо об’єкт у масив
 
-      if (userExists) {
-        alert("Користувач з таким ім'ям або email вже існує!");
-        return;
+        const userExists =
+          users.some(
+            (user) =>
+              user.email === currentUser.email &&
+              user.username !== currentUser.username &&
+              user.username === usernameInput.value.trim()
+          ) ||
+          users.some(
+            (user) =>
+              user.email !== currentUser.email &&
+              user.email === emailInput.value.trim()
+          );
+
+        if (userExists) {
+          alert("Користувач з таким ім'ям або email вже існує!");
+          return;
+        }
+
+        const updatedUser = {
+          ...currentUser,
+          username: usernameInput.value.trim(),
+          description: descriptionInput.value.trim(),
+        };
+
+        users = users.map((user) =>
+          user.email === currentUser.email ? updatedUser : user
+        );
+        // Перетворюємо масив назад у об’єкт для збереження
+        const updatedUsersObj = {};
+        users.forEach((user) => {
+          updatedUsersObj[user.email] = user;
+        });
+
+        localStorage.setItem("users", JSON.stringify(updatedUsersObj));
+        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+        updateUserAcrossPages(updatedUser);
+        alert("Профіль оновлено!");
+        window.location.href = "./profile.html";
       }
+    });
+  }
 
-      const updatedUser = {
-        ...currentUser,
-        username: usernameInput.value,
-        description: descriptionInput.value.trim(),
-      };
+  if (avatarForm) {
+    avatarForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (checkAvatarForm()) {
+        let users = JSON.parse(localStorage.getItem("users")) || {};
+        users = Object.values(users);
 
-      const updatedUsers = users.map((user) =>
-        user.email === currentUser.email ? updatedUser : user
-      );
+        const updatedUser = {
+          ...currentUser,
+          avatar:
+            avatarInput.value.trim() ||
+            "https://via.placeholder.com/100?text=Avatar",
+        };
 
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-      updateUserAcrossPages(updatedUser);
-      alert("Профіль оновлено!");
-      window.location.href = "./profile.html";
-    }
-  });
+        users = users.map((user) =>
+          user.email === currentUser.email ? updatedUser : user
+        );
+        const updatedUsersObj = {};
+        users.forEach((user) => {
+          updatedUsersObj[user.email] = user;
+        });
 
-  avatarForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (checkAvatarForm()) {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const updatedUser = {
-        ...currentUser,
-        avatar:
-          avatarInput.value.trim() ||
-          "https://via.placeholder.com/100?text=Avatar",
-      };
-
-      const updatedUsers = users.map((user) =>
-        user.email === currentUser.email ? updatedUser : user
-      );
-
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-      updateUserAcrossPages(updatedUser);
-      alert("Аватар оновлено!");
-      window.location.href = "./profile.html";
-    }
-  });
-
-  infoForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (checkInfoForm()) {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-      const userExists = users.some(
-        (user) =>
-          user.email !== currentUser.email && user.email === emailInput.value
-      );
-
-      if (userExists) {
-        alert("Користувач з таким email вже існує!");
-        return;
+        localStorage.setItem("users", JSON.stringify(updatedUsersObj));
+        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+        updateUserAcrossPages(updatedUser);
+        alert("Аватар оновлено!");
+        window.location.href = "./profile.html";
       }
+    });
+  }
 
-      const updatedUser = {
-        ...currentUser,
-        email: emailInput.value,
-        phone: phoneInput.value.trim(),
-        password: passwordInput.value.trim() || currentUser.password,
-      };
+  if (infoForm) {
+    infoForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (checkInfoForm()) {
+        let users = JSON.parse(localStorage.getItem("users")) || {};
+        users = Object.values(users);
 
-      const updatedUsers = users.map((user) =>
-        user.email === currentUser.email ? updatedUser : user
-      );
+        const userExists = users.some(
+          (user) =>
+            user.email !== currentUser.email &&
+            user.email === emailInput.value.trim()
+        );
 
-      localStorage.setItem("users", JSON.stringify(updatedUsers));
-      localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-      updateUserAcrossPages(updatedUser);
-      alert("Інформація оновлена!");
-      window.location.href = "./profile.html";
-    }
-  });
+        if (userExists) {
+          alert("Користувач з таким email вже існує!");
+          return;
+        }
+
+        const updatedUser = {
+          ...currentUser,
+          email: emailInput.value.trim(),
+          phone: phoneInput.value.trim(),
+          password: passwordInput.value.trim() || currentUser.password,
+        };
+
+        users = users.map((user) =>
+          user.email === currentUser.email ? updatedUser : user
+        );
+        const updatedUsersObj = {};
+        users.forEach((user) => {
+          updatedUsersObj[user.email] = user;
+        });
+
+        localStorage.setItem("users", JSON.stringify(updatedUsersObj));
+        localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+        updateUserAcrossPages(updatedUser);
+        alert("Інформація оновлена!");
+        window.location.href = "./profile.html";
+      }
+    });
+  }
 });

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Вхід</title>
     <style>
+      /* Ваші стилі залишаються без змін */
       body {
         background: #121018;
         color: white;
@@ -156,23 +157,26 @@
           return;
         }
 
-        const users = JSON.parse(localStorage.getItem("users")) || [];
-        console.log("Масив users при вході:", users); // Діагностика
-        const user = users.find(
-          (user) =>
-            user.email === emailInput.value &&
-            user.password === passwordInput.value
-        );
-
-        if (!user) {
-          passwordError.classList.add("visible");
-          return;
+        const users = JSON.parse(localStorage.getItem("users")) || {};
+        let userFound = false;
+        for (let username in users) {
+          if (
+            users[username].email === emailInput.value &&
+            users[username].password === passwordInput.value
+          ) {
+            userFound = true;
+            const user = users[username];
+            localStorage.setItem("isAuthenticated", "true");
+            localStorage.setItem("currentUser", JSON.stringify(user));
+            alert("Вхід успішний!");
+            window.location.href = "index.html";
+            break;
+          }
         }
 
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("currentUser", JSON.stringify(user));
-        alert("Вхід успішний!");
-        window.location.href = "index.html";
+        if (!userFound) {
+          passwordError.classList.add("visible");
+        }
       });
     </script>
   </body>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Реєстрація</title>
     <style>
+      /* Ваші стилі залишаються без змін */
       body {
         background: #121018;
         color: white;
@@ -195,13 +196,12 @@
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         if (checkForm()) {
-          const users = JSON.parse(localStorage.getItem("users")) || [];
-          console.log("Поточний масив users:", users); // Діагностика
-          const userExists = users.some(
-            (user) =>
-              user.email === emailInput.value ||
-              user.username === usernameInput.value
-          );
+          const users = JSON.parse(localStorage.getItem("users")) || {};
+          const userExists =
+            users[usernameInput.value] ||
+            Object.values(users).some(
+              (user) => user.email === emailInput.value
+            );
 
           if (userExists) {
             alert("Користувач з таким ім'ям або email вже існує!");
@@ -212,12 +212,12 @@
             username: usernameInput.value,
             email: emailInput.value,
             password: passwordInput.value,
-            avatar: "./img/avatars.png", // Дефолтна аватарка
+            avatar: "./img/avatars.png",
+            wallet: 0, // Ініціалізуємо баланс
           };
 
-          users.push(newUser);
+          users[usernameInput.value] = newUser;
           localStorage.setItem("users", JSON.stringify(users));
-          console.log("Оновлений масив users:", users); // Діагностика
           localStorage.setItem("isAuthenticated", "true");
           localStorage.setItem("currentUser", JSON.stringify(newUser));
           alert("Реєстрація успішна!");
